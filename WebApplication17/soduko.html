@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>SUDOKU GAME</title>
+    <style>
+        .difficulties {
+            margin-left: 95%;
+        }
+
+        label {
+            font-size: 16px;
+            margin: 0px auto;
+        }
+    </style>
+    <script src="sudoku.js"></script>
+</head>
+<body>
+    <input type="radio" id="easy" name="difficulties" class="difficulties" value="easy">
+    <label for="easy" class="difficulties">קל</label><br>
+    <input type="radio" id="medium" name="difficulties" class="difficulties" value="medium">
+    <label for="medium" class="difficulties">בינוני</label><br>
+    <input type="radio" id="hard" name="difficulties" class="difficulties" value="hard">
+    <label for="hard" class="difficulties">קשה</label><br>
+    <input type="radio" id="extreme" name="difficulties" class="difficulties" value="extreme">
+    <label for="extreme" class="difficulties">מטורף</label><br />
+    <input type="submit" id="submit" class="difficulties" onclick="difficulties()">
+    <script>
+        function rnd(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        function difficulties() {
+
+            if (document.getElementById('easy').checked) {
+                location.replace("sudoku(2).html");
+                //document.getElementById("table" + "\'" + rnd(1, 2) + "\'" ).style.display = "inline-table";
+                game("gameBoard" + "\'" + rnd(1, 2) + "\'", "board" + "\'" + rnd(1,2) + "\'");
+                reset();
+
+            }
+            if (document.getElementById('easy').checked) {
+                location.replace("sudoku(2).html");
+                document.getElementById("table" + "\'" + rnd(3, 4) + "\'" ).style.display = "inline-table";
+                game("gameBoard" + "\'" + rnd(3, 4) + "\'", "board" + "\'" + rnd(3,4) + "\'");
+                reset();
+
+            }
+            if (document.getElementById('easy').checked) {
+                location.replace("sudoku(2).html");
+                document.getElementById("table" + "\'" + rnd(5, 6) + "\'" ).style.display = "inline-table";
+                game("gameBoard" + "\'" + rnd(5, 6) + "\'", "board" + "\'" + rnd(5,6) + "\'");
+                reset();
+
+            }
+            if (document.getElementById('easy').checked) {
+                location.replace("sudoku(2).html");
+                document.getElementById("table" + "\'" + rnd(7, 8) + "\'" ).style.display = "inline-table";
+                game("gameBoard" + "\'" + rnd(7, 8) + "\'", "board" + "\'" + rnd(7,8) + "\'");
+                reset();
+
+            }
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<table>
+  <AD>
+    <FirstName>אורי</FirstName>
+    <LastName>לוי</LastName>
+    <UserName>Admin1</UserName>
+    <Password>Adminp11</Password>
+    <Email>ori11@gmail.com</Email>
+    <Phone>0544728777</Phone>
+    <Address>Ramat Gan Hayarden 14</Address>
+    <Gender>male</Gender>
+    <Birthday>2/12/1990</Birthday>
+    <Admin>true</Admin>
+  </AD>
+  <AD>
+    <FirstName>יורם</FirstName>
+    <LastName>כהן</LastName>
+    <UserName>Admin133</UserName>
+    <Password>Adminp55</Password>
+    <Email>yoramc@gmail.com</Email>
+    <Phone>0562784463</Phone>
+    <Address>Hertzelia Haofer 23</Address>
+    <Gender>male</Gender>
+    <Birthday>7/3/2000</Birthday>
+    <Admin>true</Admin>
+  </AD>
+  <AD>
+    <FirstName>נעמי</FirstName>
+    <LastName>טל</LastName>
+    <UserName>Admin731</UserName>
+    <Password>Adminp009</Password>
+    <Email>naomital11@gmail.com</Email>
+    <Phone>0582749936</Phone>
+    <Address>Hertzelia Menora 55</Address>
+    <Gender>female</Gender>
+    <Birthday>26/11/1995</Birthday>
+    <Admin>true</Admin>
+  </AD>
+</table>

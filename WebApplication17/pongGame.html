@@ -1,0 +1,181 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <canvas id="screen" width="800" height="480"></canvas>
+            <script>
+                var Canvas;
+                var ctx;
+                var P1x = 0;
+                var P1y = 190;
+                var P2x = 780;
+                var P2y = 190;
+                var ballx = 400;
+                var bally = 240;
+                var xv = 5;
+                var yv = 7;
+                var arrowUp = false;
+                var arrowDown = false;
+                var P1Score = 0;
+                var P2Score = 0;
+                var winningScore = 5;
+                var game = false;
+
+
+                window.onload = function () {
+                     Canvas = document.getElementById("screen");
+                    ctx =  Canvas.getContext("2d");
+                    var fps = 30;
+                    setInterval(function () {
+                        drawAll();
+                        MovePlayer();
+                        MoveBotAI();
+                        moveAll();
+                    }, 1000 / fps);
+                    addEventListener("keydown", onKeyDown);
+                    addEventListener("keyup", onKeyUp);
+                    addEventListener("keydown", onKeyDown);
+                    addEventListener("keyup", onKeyUp);
+
+                }
+
+                function MovePlayer() {
+                    if ((P1y < ( Canvas.height - 100)) && (P1y >= -4)) { 
+                        if (arrowUp) { P1y -= 10; }
+                        if (arrowDown) { P1y += 10; }
+                    }
+                    else if (P1y <= -5) { P1y += 1; }
+                    else { P1y -= 1; }
+                }
+
+                function MoveBotAI() {
+                    if ((P2y < ( Canvas.height - 100)) && (P2y >= -4)) { 
+                        if (bally > P2y) { P2y += 9; }
+                        if (bally < P2y) { P2y -= 9; }
+                    }
+                    else if (P2y <= -5) { P2y += 1; }
+                    else { P2y -= 1; }
+
+                }
+
+                function onKeyDown(evt) {
+                    var keyCode = evt.keyCode;
+                    switch (keyCode) {
+                        case 38:
+                            arrowUp = true;
+                            break;
+                        case 40:
+                            arrowDown = true;
+                            break;
+                    }
+                }
+                function onKeyUp(evt) {
+                    var keyCode = evt.keyCode;
+                    switch (keyCode) {
+                        case 38:
+                            arrowUp = false;
+                            break;
+                        case 40:
+                            arrowDown = false;
+                            break;
+                    }
+                }
+
+                function moveAll() {
+                    ballx += xv;
+                    bally += yv;
+
+                    if (ballx >=  Canvas.width) { 
+                        xv = -5; 
+                        yv = 7; 
+                        ballx =  Canvas.width / 2; 
+                        bally =  Canvas.height / 2; 
+                        P1Score++;
+                        ballReset();
+                    }
+                    if (ballx <= 0) { 
+                        xv = 5; 
+                        yv = 7; 
+                        ballx =  Canvas.width / 2;
+                        bally =  Canvas.height / 2;
+                        P2Score++;
+                        ballReset();
+
+                    }
+                    if (bally >=  Canvas.height) { yv = -yv } 
+                    if (bally <= 0) { yv = -yv } 
+                    if (((P1y - 3 <= bally) && (bally <= P1y + 193)) && ((ballx >= P1x) && (ballx <= P1x + 15))) {
+                        yv = (bally - (P1y + 50)) * 0.35;
+                        xv = -xv;
+                    }
+                    
+                    if (((P2y - 3 <= bally) && (bally <= P2y + 100)) && ((ballx >= P2x) && (ballx <= P2x + 15))) {
+                        yv = (bally - (P2y + 50)) * 0.35;
+                        xv = -xv;
+                    }
+                   
+                    
+                }
+                function ballReset() {
+                    if (P1Score == 5 || P2Score == 5) {
+                        game = true;
+                        return game;
+                    }
+                }
+                function drawAll() {
+
+                    rect(0, 0,  Canvas.width,  Canvas.height, "rgba(55,55,55,0.25)", 3, 'black');
+                    if (game == true) {
+                        ctx.fillStyle = "white";
+                        if (P1Score >= winningScore) {
+                            ctx.fillText("Left Player Won!", 200, 200);
+                        }
+                        else if (P2Score >= winningScore) {
+                            ctx.fillText("Right Player Won!", 200, 200);
+                        }
+                        return;
+                    }
+                    rect(P1x, P1y, 20, 100, 'white', 0, 'white');
+                    rect(P2x, P2y, 20, 100, 'white', 0, 'white');
+                    dottedLine();
+                    circle(ballx, bally, 10, 'white');
+                    ctx.font = "50px Arial";
+                    ctx.fillText(P1Score,  Canvas.width / 4, 50);
+                    ctx.fillText(P2Score, ( Canvas.width * 3) / 4, 50);
+                }
+
+                function rect(x, y, length, width, Color1, LineWidth, Color2) {
+                    ctx.beginPath();
+                    ctx.rect(x, y, length, width);
+                    ctx.fillStyle = Color1;
+                    ctx.fill();
+                    ctx.lineWidth = LineWidth;
+                    ctx.strokeStyle = Color2;
+                    ctx.stroke();
+                }
+
+                function circle(x, y, radius, brushColor) {
+                    ctx.beginPath();
+                    ctx.fillStyle = brushColor;
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+
+                }
+
+                function dottedLine() {
+                    for (var i = 10; i <  Canvas.height; i += 40) {
+                        rect( Canvas.width / 2 - 1, i, 2, 20, "white", 1, "white");
+                    }
+                }
+
+
+            </script>
+        </div>
+    </form>
+</body>
+</html>

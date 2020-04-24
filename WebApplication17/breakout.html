@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <canvas id="myCanvas" height="400" width="500" style="background-color:aqua"></canvas>
+    <script>
+        var Canvas;
+        var ctx;
+        var P1x = 225;
+        var P1y = 10;
+        var ballx = 250;
+        var bally = 150;
+        var rightArrow = false;
+        var leftArrow = false;
+        var winning = 0;
+        var game = false;
+        var arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var strikes = 0;
+        window.onload = function () {
+            Canvas = document.getElementById("myCanvas");
+            ctx = canvas.getContext("2d");
+            var fps = 30;
+            setInterval(function () {
+                MovePlayer()
+                moveAll()
+                drawAll()
+            }, 1000 / fps)
+            addEventListener("keydown", onKeyDown);
+            addEventListener("keyup", onKeyUp);
+
+            function MovePlayer() {
+                if ((P1x < (Canvas.width - 50)) && (P1x >= -4)) {
+                    if (rightArrow) { P1x += 10; }
+                    if (leftArrow) { P1x -= 10; }
+                }
+                else if (P1x <= -5) { P1x += 1; }
+                else { P1x -= 1; }
+            }
+        }
+
+        function onKeyDown(event) {
+            var keyCode = event.keyCode;
+            switch (keyCode) {
+                case 39:
+                    rightArrow = true;
+                    break;
+                case 37:
+                    leftArrow = true;
+                    break;
+            }
+        }
+        function onKeyUp(event) {
+            var keyCode = event.keyCode;
+            switch (keyCode) {
+                case 39:
+                    rightArrow = false;
+                    break;
+                case 37:
+                    leftArrow = false;
+                    break;
+            }
+        }
+
+        function moveAll() {
+            bally -= yv;
+
+            if (bally <= 0) {
+                xv = 5;
+                yv = 7;
+                ballx = Canvas.width / 2;
+                bally = Canvas.height / 2;
+                strikes++;
+                ballReset();
+            }
+            if (ballx >= Canvas.width) {
+                xv = -5;
+                yv = 7;
+                ballx = Canvas.width / 2;
+                bally = Canvas.height / 2;
+                ballReset();
+
+            }
+            if ((ballx >= Canvas.height) || (ballx <= 0)) { xv = -xv }
+            if (((P1y - 3 <= bally) && (bally <= P1y + 193)) && ((ballx >= P1x) && (ballx <= P1x + 15))) {
+                yv = (bally - (P1y + 50)) * 0.35;
+                xv = -xv;
+            }
+
+            if (((P2y - 3 <= bally) && (bally <= P2y + 193)) && ((ballx >= P2x) && (ballx <= P2x + 15))) {
+                yv = (bally - (P2y + 50)) * 0.35;
+                xv = -xv;
+            }
+        }
+        function ballReset() {
+            if ((strikes >= 3)|| ) {
+                game = true;
+                return game;
+            }
+        }
+            function drawAll() {
+
+                rect(0, 0, Canvas.width, Canvas.height, "rgba(55,55,55,0.25)", 3, 'black');
+                if (game == true) {
+                    ctx.fillStyle = "white";
+                    for (var i = 0; i < arr.length; i++) {
+                        if (P1Score >= winningScore) {
+                            ctx.fillText("Left Player Won!", 200, 200);
+                        }
+                    }
+                    return;
+                }
+                rect(P1x, P1y, 20, 100, 'white', 0, 'white');
+                circle(ballx, bally, 10, 'white');
+                ctx.font = "50px Arial";
+                ctx.fillText(P1Score, Canvas.width / 4, 50);
+                ctx.fillText(P2Score, (Canvas.width * 3) / 4, 50);
+            }
+
+            function rect(x, y, length, width, Color1, LineWidth, Color2) {
+                ctx.beginPath();
+                ctx.rect(x, y, length, width);
+                ctx.fillStyle = Color1;
+                ctx.fill();
+                ctx.lineWidth = LineWidth;
+                ctx.strokeStyle = Color2;
+                ctx.stroke();
+            }
+
+            function circle(x, y, radius, brushColor) {
+                ctx.beginPath();
+                ctx.fillStyle = brushColor;
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="400" style="background-color:aqua"></canvas>
+    <script>
+
+        var Canvas;
+        var ctx;
+        var P1x = 200;
+        var P1y = 370;
+        var ballx = 250;
+        var bally = 250;
+        var rightArrow = false;
+        var leftArrow = false;
+        var winning = 0;
+        var game = false;
+        var arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var strikes = 0;
+        var spaceX = 25;
+        var spaceY = 50;
+        var fps = 30;
+        var xv = 2;
+        var yv = -2;
+        var counter = 0;
+             
+        window.onload = function () {
+            Canvas = document.getElementById("myCanvas");
+            ctx = Canvas.getContext("2d");
+               
+            setInterval(function () {
+                
+                drawAll();
+                MovePlayer();
+                moveAll();
+            }, 10);
+            addEventListener("keydown", onKeyDown);
+            addEventListener("keyup", onKeyUp);
+        }
+        function MovePlayer() {
+                if ((P1x < (Canvas.width - 99)) && (P1x >= -4)) {
+                    if (rightArrow) { P1x += 5; }
+                    if (leftArrow) { P1x -= 5; }
+            }
+            else if (P1x <= -1) { P1x += 1; }
+            else { P1x -= 1; }
+        }
+
+        
+        function onKeyDown(event) {
+            var keyCode = event.keyCode;
+            switch (keyCode) {
+                case 39:
+                    rightArrow = true;
+                    break;
+                case 37:
+                    leftArrow = true;
+                    break;
+            }
+        }
+        function onKeyUp(event) {
+            var keyCode = event.keyCode;
+            switch (keyCode) {
+                case 39:
+                    rightArrow = false;
+                    break;
+                case 37:
+                    leftArrow = false;
+                    break;
+            }
+        }
+        function moveAll() {
+            
+                bally -= yv;           
+             if (ballx < P1x + 100 && ballx + 10 > P1x && bally < P1y + 10 && bally + 10 > P1y) {
+                ballx += xv;
+                bally += yv;
+            }            
+            
+            
+                if (ballx >= Canvas.height) { xv = -xv }
+                if (ballx <= 0) { xy = -xv }
+            }
+        
+        function circle(x, y, radius, brushColor) {
+            ctx.beginPath();
+            ctx.fillStyle = brushColor;
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+
+        }
+        function rect(x, y, length, width, Color1, LineWidth, Color2) {
+            ctx.beginPath();
+            ctx.rect(x, y, length, width);
+            ctx.fillStyle = Color1;
+            ctx.fill();
+            ctx.lineWidth = LineWidth;
+            ctx.strokeStyle = Color2;
+            ctx.stroke();
+        }
+        function drawScore() {
+            ctx.font = "16px Arial";
+            ctx.fillStyle = "#0095DD";
+            ctx.fillText("Score: " + score, 8, 20);
+        }
+        function drawAll() {
+            ctx.clearRect(0, 0, Canvas.width, Canvas.height);
+            rect(P1x, P1y, 100, 10, 'black', 0, 'black');
+            for (var i = 0; i < 3; i++) {
+                for (var j = 0; j < 5; j++) {
+                    rect(spaceX, spaceY, 70, 30, 'white' , 1, 'black');
+                    spaceX += 95;
+                }
+                spaceY += 50;
+                spaceX = 25;
+            }
+            spaceY = 50;
+            circle(ballx, bally, 10, 'black');
+        }
+            
+           
+    </script>
+</body>
+</html>

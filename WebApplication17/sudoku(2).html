@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>SUDOKU GAME</title>
+    <style>
+        td {
+            text-align: center;
+            align-content: center;
+        }
+        table{
+            display: none;
+        }
+        table, td {
+            border: 1px solid black;
+            height: 30px;
+            border-collapse:collapse;
+            margin-top:0px;
+        }
+        input {
+            text-align: center;
+            height: 30px;
+            border-color: white;
+        }
+        .difficulties {
+            margin-left: 95%;
+        }
+        label {
+            font-size: 16px;
+            margin: 0px auto;
+        }
+    </style>
+    
+</head>
+<body>
+
+    <form>
+        <table id="table1">
+            <tr>
+                <td>5</td>
+                <td>3</td>
+                <td><input type="text" onchange="check(2, board1, table1, gameBoard1)" id="2" size="1"></td>
+                <td><input type="text" onchange="check(3, board1, table1, gameBoard1)" id="3" size="1"></td>
+                <td>7</td>
+                <td><input type="text" onchange="check(5, board1, table1, gameBoard1)" id="5" size="1"></td>
+                <td><input type="text" onchange="check(6, board1, table1, gameBoard1)" id="6" size="1"></td>
+                <td><input type="text" onchange="check(7, board1, table1, gameBoard1)" id="7" size="1"></td>
+                <td><input type="text" onchange="check(8, board1, table1, gameBoard1)" id="8" size="1"></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><input type="text" onchange="check(10, board1, table1, gameBoard1)" id="10" size="1"></td>
+                <td><input type="text" onchange="check(11, board1, table1, gameBoard1)" id="11" size="1"></td>
+                <td>1</td>
+                <td>9</td>
+                <td>5</td>
+                <td><input type="text" onchange="check(15, board1, table1, gameBoard1)" id="15" size="1"></td>
+                <td><input type="text" onchange="check(16, board1, table1, gameBoard1)" id="16" size="1"></td>
+                <td><input type="text" onchange="check(17, board1, table1, gameBoard1)" id="17" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check(18, board1, table1, gameBoard1)" id="18" size="1"></td>
+                <td>9</td>
+                <td>8</td>
+                <td><input type="text" onchange="check(21, board1, table1, gameBoard1)" id="21" size="1"></td>
+                <td><input type="text" onchange="check(22, board1, table1, gameBoard1)" id="22" size="1"></td>
+                <td><input type="text" onchange="check(23, board1, table1, gameBoard1)" id="23" size="1"></td>
+                <td><input type="text" onchange="check(24, board1, table1, gameBoard1)" id="24" size="1"></td>
+                <td>6</td>
+                <td><input type="text" onchange="check(26, board1, table1, gameBoard1)" id="26" size="1"></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><input type="text" onchange="check(28, board1, table1, gameBoard1)" id="28" size="1"></td>
+                <td><input type="text" onchange="check(29, board1, table1, gameBoard1)" id="29" size="1"></td>
+                <td><input type="text" onchange="check(30, board1, table1, gameBoard1)" id="30" size="1"></td>
+                <td>6</td>
+                <td><input type="text" onchange="check(32, board1, table1, gameBoard1)" id="32" size="1"></td>
+                <td><input type="text" onchange="check(33, board1, table1, gameBoard1)" id="33" size="1"></td>
+                <td><input type="text" onchange="check(34, board1, table1, gameBoard1)" id="34" size="1"></td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><input type="text" onchange="check(37, board1, table1, gameBoard1)" id="37" size="1"></td>
+                <td><input type="text" onchange="check(38, board1, table1, gameBoard1)" id="38" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check(40, board1, table1, gameBoard1)" id="40" size="1"></td>
+                <td>3</td>
+                <td><input type="text" onchange="check(42, board1, table1, gameBoard1)" id="42" size="1"></td>
+                <td><input type="text" onchange="check(43, board1, table1, gameBoard1)" id="43" size="1"></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><input type="text" onchange="check(46, board1, table1, gameBoard1)" id="46" size="1"></td>
+                <td><input type="text" onchange="check(47, board1, table1, gameBoard1)" id="47" size="1"></td>
+                <td><input type="text" onchange="check(48, board1, table1, gameBoard1)" id="48" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check(50, board1, table1, gameBoard1)" id="50" size="1"></td>
+                <td><input type="text" onchange="check(51, board1, table1, gameBoard1)" id="51" size="1"></td>
+                <td><input type="text" onchange="check(52, board1, table1, gameBoard1)" id="52" size="1"></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check(54, board1, table1, gameBoard1)" id="54" size="1"></td>
+                <td>6</td>
+                <td><input type="text" onchange="check(56, board1, table1, gameBoard1)" id="56" size="1"></td>
+                <td><input type="text" onchange="check(57, board1, table1, gameBoard1)" id="57" size="1"></td>
+                <td><input type="text" onchange="check(58, board1, table1, gameBoard1)" id="58" size="1"></td>
+                <td><input type="text" onchange="check(59, board1, table1, gameBoard1)" id="59" size="1"></td>
+                <td>2</td>
+                <td>8</td>
+                <td><input type="text" onchange="check(62, board1, table1, gameBoard1)" id="62" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check(63, board1, table1, gameBoard1)" id="63" size="1"></td>
+                <td><input type="text" onchange="check(64, board1, table1, gameBoard1)" id="64" size="1"></td>
+                <td><input type="text" onchange="check(65, board1, table1, gameBoard1)" id="65" size="1"></td>
+                <td>4</td>
+                <td>1</td>
+                <td>9</td>
+                <td><input type="text" onchange="check(69, board1, table1, gameBoard1)" id="69" size="1"></td>
+                <td><input type="text" onchange="check(70, board1, table1, gameBoard1)" id="70" size="1"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check(72, board1, table1, gameBoard1)" id="72" size="1"></td>
+                <td><input type="text" onchange="check(73, board1, table1, gameBoard1)" id="73" size="1"></td>
+                <td><input type="text" onchange="check(74, board1, table1, gameBoard1)" id="74" size="1"></td>
+                <td><input type="text" onchange="check(75, board1, table1, gameBoard1)" id="75" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check(77, board1, table1, gameBoard1)" id="77" size="1"></td>
+                <td><input type="text" onchange="check(78, board1, table1, gameBoard1)" id="78" size="1"></td>
+                <td>7</td>
+                <td>9</td>
+            </tr>
+        </table>
+    </form>
+    <form>
+        <table id="table3">
+            <tr>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>4</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>1</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>6</td>
+                <td>7</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>9</td>
+                <td>8</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>1</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>3</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>9</td>
+                <td>8</td>
+                <td>6</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>7</td>
+                <td>2</td>
+                <td>6</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>3</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>5</td>
+                <td>4</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>6</td>
+                <td>9</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>4</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+            </tr>
+
+        </table>
+    </form>
+    <p id="mistakes"></p>
+    <p id="cellsLeft"></p>
+    <button type="button" id="button" onclick="reset()">START</button>
+    <button type="button" id="button" onclick="location.replace('soduko.html')">Back</button>
+    <script src="sudoku.js"></script>
+    <script>
+        game(gameBoard3);
+    </script>
+</body>
+</html>
