@@ -3,123 +3,183 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <style>
+        h1 {
+            color: black;
+            text-shadow: 3px 3px 3px #ffff80;
+            font-size: 36px;
+        }
+        p {
+            background-color: #ffff99;
+            font-size: 20px;
+            background-size:cover;
+            font-weight: 500;
+        }
+        
+    </style>
 </head>
 <body>
-    <canvas id="myCanvas" height="400" width="500" style="background-color:aqua"></canvas>
+    <div id="startPage" style="direction:rtl">
+        <h1>
+            BREAKOUT - חוקי המשחק
+        </h1>
+        <p>
+            - מטרת המשחק הינה להוריד את כל הלבנים בעזרת הכדור
+        </p>
+        <p>
+            - הזיזו את כלי המשחק בערת מקשים החיצים ימינה ושמאלה
+        </p>
+        <p>
+            - המשחק יגמר כאשר ישנן שלוש פסילות, או שכל הלבנים נעלמו
+        </p>
+        <p>
+            בהצלחה!
+        </p>
+        <button id="startGame" type="button" onclick="Breakout()">לחצו פה על מנת להתחיל</button>
+    </div>
+    <canvas id="myCanvas" width="500" height="400" style="background-color:#ffffb3; display: none" ></canvas>
     <script>
-        var Canvas;
-        var ctx;
-        var P1x = 225;
-        var P1y = 10;
-        var ballx = 250;
-        var bally = 150;
-        var rightArrow = false;
-        var leftArrow = false;
-        var winning = 0;
-        var game = false;
-        var arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        var strikes = 0;
-        window.onload = function () {
-            Canvas = document.getElementById("myCanvas");
-            ctx = canvas.getContext("2d");
-            var fps = 30;
-            setInterval(function () {
-                MovePlayer()
-                moveAll()
-                drawAll()
-            }, 1000 / fps)
-            addEventListener("keydown", onKeyDown);
-            addEventListener("keyup", onKeyUp);
 
-            function MovePlayer() {
-                if ((P1x < (Canvas.width - 50)) && (P1x >= -4)) {
-                    if (rightArrow) { P1x += 10; }
-                    if (leftArrow) { P1x -= 10; }
+        function Breakout() {
+            document.getElementById("myCanvas").style.display = "inline";
+            document.getElementById("startPage").style.display = "none";
+            document.getElementById("startGame").style.display = "none";
+            // כל משתני המשחק הנחוצים
+            var Canvas;
+            var ctx;
+            var P1x = 200; //מיקום שחקן x
+            var P1y = 390;  // מיקום שחקן y
+            var ballx = 250;  //מיקום כדור x
+            var bally = 350;  //מיקום כדור Y
+            var rightArrow = false;  //חץ ימין
+            var leftArrow = false;  // חץ שמאל
+            var bricks = [];  //מערך לבנים
+            var strikes = 0;  //פסילות
+            var spaceX = 25;  //המרווח בין כל לבנה ללבנה (שורה)
+            var spaceY = 50;  //המרווח בין שורות הלבנים
+            var xv = 2;  //מהירות X
+            var yv = -2;    //מהירות Y
+            var score = 0;  //תוצאה
+            for (var c = 0; c < 3; c++) {  //יוצר את מערך הלבנים
+                bricks[c] = [];
+                for (var r = 0; r < 5; r++) {
+                    bricks[c][r] = { x: 0, y: 0, status: 1 };     //מיקום X Y וסטטוס (אם הלבנה נםגעה או לא)
                 }
-                else if (P1x <= -5) { P1x += 1; }
+            }
+
+                Canvas = document.getElementById("myCanvas");    //יצירת הקנבס
+                ctx = Canvas.getContext("2d");
+
+                setInterval(function () {       //קריאה לכל הפונקציות עם אינטרבל
+                    drawAll();
+                    MovePlayer();
+                    moveAll();
+
+                }, 10);
+                addEventListener("keydown", onKeyDown);     //אירועי מקלדת
+                addEventListener("keyup", onKeyUp);
+           
+            function MovePlayer() {      //הזזת כלי השחקן
+                if ((P1x < (Canvas.width - 99)) && (P1x >= -4)) {       //אם הכלי לא הגיע לקצה המסך
+                    if (rightArrow) { P1x += 5; }       //הזזת כלי השחקן ב5 ימינה ושמאלה בהתאם
+                    if (leftArrow) { P1x -= 5; }
+                }
+                else if (P1x <= -1) { P1x += 1; }       //אם השחקן יצא מהמסך זה ימנע ממנו
                 else { P1x -= 1; }
             }
-        }
 
-        function onKeyDown(event) {
-            var keyCode = event.keyCode;
-            switch (keyCode) {
-                case 39:
-                    rightArrow = true;
-                    break;
-                case 37:
-                    leftArrow = true;
-                    break;
-            }
-        }
-        function onKeyUp(event) {
-            var keyCode = event.keyCode;
-            switch (keyCode) {
-                case 39:
-                    rightArrow = false;
-                    break;
-                case 37:
-                    leftArrow = false;
-                    break;
-            }
-        }
 
-        function moveAll() {
-            bally -= yv;
+            function onKeyDown(event) {     //שליטה על אירועי מקלדת (לחיצה על המקשים)
+                var keyCode = event.keyCode;
+                switch (keyCode) {
+                    case 39:
+                        rightArrow = true;
+                        break;
+                    case 37:
+                        leftArrow = true;
+                        break;
+                }
+            }
+            function onKeyUp(event) {       //שליטה על אירועי מקלדת (שחרור המקשים)
+                var keyCode = event.keyCode;
+                switch (keyCode) {
+                    case 39:
+                        rightArrow = false;
+                        break;
+                    case 37:
+                        leftArrow = false;
+                        break;
+                }
+            }
+            function moveAll() {        //דואגת להזזת המשחק
+                bally += yv;        //הזזת הכדור בקצב קבוע
+                ballx += xv;
 
-            if (bally <= 0) {
-                xv = 5;
-                yv = 7;
-                ballx = Canvas.width / 2;
-                bally = Canvas.height / 2;
-                strikes++;
-                ballReset();
-            }
-            if (ballx >= Canvas.width) {
-                xv = -5;
-                yv = 7;
-                ballx = Canvas.width / 2;
-                bally = Canvas.height / 2;
-                ballReset();
+                
+                if (ballx + xv > Canvas.width - 10 || ballx + xv < 10) {        //אם הכדור פוגע בקירות הצדדיים
+                    xv = -xv;
+                }
+                if (bally + yv < 10) {      //אם הכדור פוגע בתקרה
+                    yv = -yv;
+                }
+                 
 
-            }
-            if ((ballx >= Canvas.height) || (ballx <= 0)) { xv = -xv }
-            if (((P1y - 3 <= bally) && (bally <= P1y + 193)) && ((ballx >= P1x) && (ballx <= P1x + 15))) {
-                yv = (bally - (P1y + 50)) * 0.35;
-                xv = -xv;
-            }
+                    if (ballx - 10 < P1x + 50 && ballx + 10 > P1x && bally - 10 < P1y && bally + 10 > P1y) {        //אם הכדור פוגע בחלק השמאלי של המטקה
+                        yv = -yv;
+                    }
+                    else if (ballx - 10 < P1x + 100 && ballx + 10 > P1x + 50 && bally - 10 < P1y && bally + 10 > P1y) {     // אם הכדור פוגע בחלק הימני של המטקה (חיבור וחיסור בהתאם לרדיוס הכדור ואורך המטקה)
+                        xv = -xv;
+                        yv = -yv;
 
-            if (((P2y - 3 <= bally) && (bally <= P2y + 193)) && ((ballx >= P2x) && (ballx <= P2x + 15))) {
-                yv = (bally - (P2y + 50)) * 0.35;
-                xv = -xv;
-            }
-        }
-        function ballReset() {
-            if ((strikes >= 3)|| ) {
-                game = true;
-                return game;
-            }
-        }
-            function drawAll() {
+                    }
+                    else if (bally + yv > Canvas.height - 10) {     //אם הכדור פוגע ברצפה
+                        yv = -yv;
+                        strikes++;
+                    }
+                
+                spaceX = 25;        //אתחול הרווחים על מנת שכל פעם יתחיל את הלולאה מהאיבר הכי עליון משמאל (לפי הסדר)
+                spaceY = 50;
+                for (var c = 0; c < 3; c++) {       //רץ כמספר השורות ומספר הטורים
+                    for (var r = 0; r < 5; r++) {
+                        var bri = bricks[c][r];     //משתנה השומר את המיקום הנוכחי
+                        if (bri.status == 1) {      //אם הלבנה עדיין קיימת (כלומר לא נפגעה)
+                            if (ballx + 10 > bri.x && ballx - 10 < bri.x + 70 && bally + 10 > bri.y && bally - 10 < bri.y + 30) {       //בדיקה אם אחת הלבנים נפגעה (חישובים על פי רדיוס הכדור, אורך ורוחב כל לבנה)
+                                yv = -yv;       //שינוי כיוון
+                                bri.status = 0;     //שינוי הסטטוס לאפס ובכך היא לא תצוייר על המסך
+                                score++;        //הוספת אחד לתוצאה
+                                if (score >= 15) {      //אם כל הלבנים נעלמו מן המסך (כלומר ניצחון)
+                                    alert("YOU WIN!!");
+                                    stopGame();     //מרפרשת את העמוד
+                                }
 
-                rect(0, 0, Canvas.width, Canvas.height, "rgba(55,55,55,0.25)", 3, 'black');
-                if (game == true) {
-                    ctx.fillStyle = "white";
-                    for (var i = 0; i < arr.length; i++) {
-                        if (P1Score >= winningScore) {
-                            ctx.fillText("Left Player Won!", 200, 200);
+                            }
                         }
                     }
-                    return;
                 }
-                rect(P1x, P1y, 20, 100, 'white', 0, 'white');
-                circle(ballx, bally, 10, 'white');
-                ctx.font = "50px Arial";
-                ctx.fillText(P1Score, Canvas.width / 4, 50);
-                ctx.fillText(P2Score, (Canvas.width * 3) / 4, 50);
+            }
+            function stopGame() {       //מאתחלת את המשחק (מחזירה לדף הבית של המשחק)
+                P1x = 200;      //אתחול משתנים
+                P1y = 370;
+                ballx = 250;
+                bally = 350;
+                strikes = 0;
+                rightArrow = false;
+                leftArrow = false;
+                location.reload();      //טעינה מחדש של הדף
             }
 
-            function rect(x, y, length, width, Color1, LineWidth, Color2) {
+            function circle(x, y, radius, brushColor, LineWidth, Color) {       //ציור הכדור
+                ctx.beginPath();
+                ctx.fillStyle = brushColor;
+                ctx.lineWidth = LineWidth;
+                ctx.strokeStyle = Color;
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.closePath();
+
+            }
+            function rect(x, y, length, width, Color1, LineWidth, Color2) {     //ציור כלי השחקן והלבנים
                 ctx.beginPath();
                 ctx.rect(x, y, length, width);
                 ctx.fillStyle = Color1;
@@ -128,13 +188,36 @@
                 ctx.strokeStyle = Color2;
                 ctx.stroke();
             }
-
-            function circle(x, y, radius, brushColor) {
-                ctx.beginPath();
-                ctx.fillStyle = brushColor;
-                ctx.arc(x, y, radius, 0, Math.PI * 2);
-                ctx.fill();
+            function drawScore() {      //ציור הטקסט (תוצאה וטעויות)
+                ctx.font = "16px Arial";
+                ctx.fillStyle = "#2f2f1e";
+                ctx.fillText("Score: " + score, 8, 20);
+                ctx.fillText("Strikes: " + strikes, 400, 20);
             }
+            function drawAll() {        //מציירת את כל המשחק ומוקחת כל פעם מחדש
+                ctx.clearRect(0, 0, Canvas.width, Canvas.height);       //אתחול הקנבס
+                rect(P1x, P1y, 100, 10, 'black', 0, 'black');       //ציור כלי השחקן
+                for (var c = 0; c < 3; c++) {       //לולאה המציירת את כל הלבנים (לפי שורות וטורים)
+                    for (var r = 0; r < 5; r++) {
+                        spaceX += 95;       //מוסיף 95 מכיוון שזהו החיבור של כמות הרווח בין כל מטקה ורוחב המטקה
+                        if (r == 0) { spaceX = 25; }        //מאתחל את האיקס מכיוון שכל פעם צריך לדלג על ציור של לבנה בשורה ואם הלבנה הראשונה היא זו שנפגעה, האיקס שלה צריך להיות 25 (איקס התחלתי)
+                        if (bricks[c][r].status == 1) {     //אם הלבנה לא נפגעה
+                            bricks[c][r].x = spaceX;        //מיקומה יהיה הרווח בין כל לבנה ועוד רוחבה
+                            bricks[c][r].y = spaceY;
+                            rect(spaceX, spaceY, 70, 30, 'white', 1, 'black');      //ציור הלבנה
+                        }
+                    }
+                    spaceY += 50;       //הוספת חמישים על מנת לעשות רווח בין השורות
+                }
+                circle(ballx, bally, 10, '#ffffb3', 3, 'black');        //ציור הכדור
+                drawScore();        //ציור התוצאה והפסילות
+                if (strikes == 3) {     //בודק האם ישנן 3 פסילות
+                    alert("YOU LOST :( YOUR SCORE IS: " + score);       //הדפסת הודעה מתאימה על המסך והרצה מחדש של המשחק (חוזר לדף הבית)
+                    stopGame();
+                }
+            }
+
+        }
     </script>
 </body>
 </html>

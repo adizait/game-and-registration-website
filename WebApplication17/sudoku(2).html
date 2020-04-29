@@ -8,246 +8,997 @@
             text-align: center;
             align-content: center;
         }
-        table{
-            display: none;
+        body {
+            font-family: Aharoni;
+            font-size: 20px;
         }
         table, td {
             border: 1px solid black;
             height: 30px;
-            border-collapse:collapse;
-            margin-top:0px;
+            border-collapse: collapse;
+            margin-top: 0px;
+        }
+        #diffTable {
+            border: 5px solid red;
+            height: 100px;
+            width: 200px;
+            direction: rtl;
+            border-collapse: collapse;
+            margin-top: 0px;
+            text-align: center;
+            display: inline-table;
+            float: right;
+
         }
         input {
             text-align: center;
             height: 30px;
             border-color: white;
+            font-family:Aharoni;
+            width: 30px;
         }
-        .difficulties {
-            margin-left: 95%;
-        }
+
         label {
             font-size: 16px;
             margin: 0px auto;
         }
+        #buttonG{
+            display:none;
+        }
+        #buttonR {
+            display: none;
+        }
+        div{
+            direction: rtl;
+            text-align: right;
+        }
+        pre {
+            font-family: Aharoni;
+            font-weight: lighter;
+            text-shadow: 3px 3px 3px red;
+            font-size: 24px;
+        }
+        h1 {
+            font-weight: bolder;
+            background-color: #ff3333;
+            width: 350px;
+            height: 50px;
+            font-size: 42px;
+        }
+        .difficulties {
+            font-size: 18px;
+            width: 15px;
+        }
+        #submit{
+            width:auto;
+        }
     </style>
-    
+
 </head>
 <body>
+    <div>
+        <h1>
+  סודוקו - איך משחקים?
+        </h1>
+        <pre>
+טבלת המשחק מחולקת ל81 תאים שאת כולם יש למלא בהתאם להוראות הבאות:
+בחלק מן התאים נמצאים מספרים, ויש להשלים את התאים הריקים במספרים 1-9,
+כך שבכל טור, בכל שורה ובכל תא יופיעו כל המספרים פעם אחת.
+        </pre>
+    </div>
+    <table id="diffTable">
+        <tr>
+            <th>
+                בחר רמת קושי:
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" id="easy" name="difficulties" class="difficulties" value="easy">
+                <label for="easy" class="difficulties">קל</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" id="medium" name="difficulties" class="difficulties" value="medium">
+                <label for="medium" class="difficulties">בינוני</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" id="hard" name="difficulties" class="difficulties" value="hard">
+                <label for="hard" class="difficulties">קשה</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" id="extreme" name="difficulties" class="difficulties" value="extreme">
+                <label for="extreme" class="difficulties">מטורף</label>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" id="submit" class="difficulties" onclick="difficulties()" value="התחל"></td>
+        </tr>
+    </table>    
+    <script>
+        var gameboard;
+        function rnd(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        function difficulties() {
+            document.getElementById("buttonR").style.display = "inline";
+            document.getElementById("buttonG").style.display = "inline";
+            if (document.getElementById('easy').checked) {
+                document.getElementById("diffTable").style.display = "none";
+                if (rnd(1, 2) == 1) {
+                    gameboard = gameBoard1;
+                    document.getElementById("table1").style.display = "inline-table";
+                    game(gameBoard1);
+                }
+                else {
+                    gameboard = gameBoard2;
+                    document.getElementById("table2").style.display = "inline-table";
+                    game(gameBoard2);
+                }
+            }
+            if (document.getElementById('medium').checked) {
+                document.getElementById("diffTable").style.display = "none";
+                if (rnd(3, 4) == 3) {
+                    gameboard = gameBoard3;
+                    document.getElementById("table3").style.display = "inline-table";
+                    game(gameBoard3);
+                }
+                else {
+                    gameboard = gameBoard4;
+                    document.getElementById("table4").style.display = "inline-table";
+                    game(gameBoard4);
+                }
+            }
+            if (document.getElementById('hard').checked) {
+                document.getElementById("diffTable").style.display = "none";
+                if (rnd(5, 6) == 5) {
+                    gameboard = gameBoard5;
+                    document.getElementById("table5").style.display = "inline-table";
+                    game(gameBoard5);
+                }
+                else {
+                    gameboard = gameBoard6;
+                    document.getElementById("table6").style.display = "inline-table";
+                    game(gameBoard6);
+                }
+            }
+            if (document.getElementById('extreme').checked) {
+                document.getElementById("diffTable").style.display = "none";
+                if (rnd(7, 8) == 7) {
+                    gameboard = gameBoard7;
+                    document.getElementById("table7").style.display = "inline-table";
+                    game(gameBoard7);
+                }
+                else {
+                    gameboard = gameBoard8;
+                    document.getElementById("table8").style.display = "inline-table";
+                    game(gameBoard8);
+                }
+            }
 
+
+        }
+    </script>
     <form>
-        <table id="table1">
+        <table id="table1" style="display: none">
             <tr>
                 <td>5</td>
                 <td>3</td>
-                <td><input type="text" onchange="check(2, board1, table1, gameBoard1)" id="2" size="1"></td>
-                <td><input type="text" onchange="check(3, board1, table1, gameBoard1)" id="3" size="1"></td>
+                <td><input type="text" onchange="check('1,2', board1, 'table1', gameBoard1)" id="1,2" size="1"></td>
+                <td><input type="text" onchange="check('1,3', board1, 'table1', gameBoard1)" id="1,3" size="1"></td>
                 <td>7</td>
-                <td><input type="text" onchange="check(5, board1, table1, gameBoard1)" id="5" size="1"></td>
-                <td><input type="text" onchange="check(6, board1, table1, gameBoard1)" id="6" size="1"></td>
-                <td><input type="text" onchange="check(7, board1, table1, gameBoard1)" id="7" size="1"></td>
-                <td><input type="text" onchange="check(8, board1, table1, gameBoard1)" id="8" size="1"></td>
+                <td><input type="text" onchange="check('1,5', board1, 'table1', gameBoard1)" id="1,5" size="1"></td>
+                <td><input type="text" onchange="check('1,6', board1, 'table1', gameBoard1)" id="1,6" size="1"></td>
+                <td><input type="text" onchange="check('1,7', board1, 'table1', gameBoard1)" id="1,7" size="1"></td>
+                <td><input type="text" onchange="check('1,8', board1, 'table1', gameBoard1)" id="1,8" size="1"></td>
             </tr>
             <tr>
                 <td>6</td>
-                <td><input type="text" onchange="check(10, board1, table1, gameBoard1)" id="10" size="1"></td>
-                <td><input type="text" onchange="check(11, board1, table1, gameBoard1)" id="11" size="1"></td>
+                <td><input type="text" onchange="check('1,10', board1, 'table1', gameBoard1)" id="1,10" size="1"></td>
+                <td><input type="text" onchange="check('1,11', board1, 'table1', gameBoard1)" id="1,11" size="1"></td>
                 <td>1</td>
                 <td>9</td>
                 <td>5</td>
-                <td><input type="text" onchange="check(15, board1, table1, gameBoard1)" id="15" size="1"></td>
-                <td><input type="text" onchange="check(16, board1, table1, gameBoard1)" id="16" size="1"></td>
-                <td><input type="text" onchange="check(17, board1, table1, gameBoard1)" id="17" size="1"></td>
+                <td><input type="text" onchange="check('1,15', board1, 'table1', gameBoard1)" id="1,15" size="1"></td>
+                <td><input type="text" onchange="check('1,16', board1, 'table1', gameBoard1)" id="1,16" size="1"></td>
+                <td><input type="text" onchange="check('1,17', board1, 'table1', gameBoard1)" id="1,17" size="1"></td>
             </tr>
             <tr>
-                <td><input type="text" onchange="check(18, board1, table1, gameBoard1)" id="18" size="1"></td>
+                <td><input type="text" onchange="check('1,18', board1, 'table1', gameBoard1)" id="1,18" size="1"></td>
                 <td>9</td>
                 <td>8</td>
-                <td><input type="text" onchange="check(21, board1, table1, gameBoard1)" id="21" size="1"></td>
-                <td><input type="text" onchange="check(22, board1, table1, gameBoard1)" id="22" size="1"></td>
-                <td><input type="text" onchange="check(23, board1, table1, gameBoard1)" id="23" size="1"></td>
-                <td><input type="text" onchange="check(24, board1, table1, gameBoard1)" id="24" size="1"></td>
+                <td><input type="text" onchange="check('1,21', board1, 'table1', gameBoard1)" id="1,21" size="1"></td>
+                <td><input type="text" onchange="check('1,22', board1, 'table1', gameBoard1)" id="1,22" size="1"></td>
+                <td><input type="text" onchange="check('1,23', board1, 'table1', gameBoard1)" id="1,23" size="1"></td>
+                <td><input type="text" onchange="check('1,24', board1, 'table1', gameBoard1)" id="1,24" size="1"></td>
                 <td>6</td>
-                <td><input type="text" onchange="check(26, board1, table1, gameBoard1)" id="26" size="1"></td>
+                <td><input type="text" onchange="check('1,26', board1, 'table1', gameBoard1)" id="1,26" size="1"></td>
             </tr>
             <tr>
                 <td>8</td>
-                <td><input type="text" onchange="check(28, board1, table1, gameBoard1)" id="28" size="1"></td>
-                <td><input type="text" onchange="check(29, board1, table1, gameBoard1)" id="29" size="1"></td>
-                <td><input type="text" onchange="check(30, board1, table1, gameBoard1)" id="30" size="1"></td>
+                <td><input type="text" onchange="check('1,28', board1, 'table1', gameBoard1)" id="1,28" size="1"></td>
+                <td><input type="text" onchange="check('1,29', board1, 'table1', gameBoard1)" id="1,29" size="1"></td>
+                <td><input type="text" onchange="check('1,30', board1, 'table1', gameBoard1)" id="1,30" size="1"></td>
                 <td>6</td>
-                <td><input type="text" onchange="check(32, board1, table1, gameBoard1)" id="32" size="1"></td>
-                <td><input type="text" onchange="check(33, board1, table1, gameBoard1)" id="33" size="1"></td>
-                <td><input type="text" onchange="check(34, board1, table1, gameBoard1)" id="34" size="1"></td>
+                <td><input type="text" onchange="check('1,32', board1, 'table1', gameBoard1)" id="1,32" size="1"></td>
+                <td><input type="text" onchange="check('1,33', board1, 'table1', gameBoard1)" id="1,33" size="1"></td>
+                <td><input type="text" onchange="check('1,34', board1, 'table1', gameBoard1)" id="1,34" size="1"></td>
                 <td>3</td>
             </tr>
             <tr>
                 <td>4</td>
-                <td><input type="text" onchange="check(37, board1, table1, gameBoard1)" id="37" size="1"></td>
-                <td><input type="text" onchange="check(38, board1, table1, gameBoard1)" id="38" size="1"></td>
+                <td><input type="text" onchange="check('1,37', board1, 'table1', gameBoard1)" id="1,37" size="1"></td>
+                <td><input type="text" onchange="check('1,38', board1, 'table1', gameBoard1)" id="1,38" size="1"></td>
                 <td>8</td>
-                <td><input type="text" onchange="check(40, board1, table1, gameBoard1)" id="40" size="1"></td>
+                <td><input type="text" onchange="check('1,40', board1, 'table1', gameBoard1)" id="1,40" size="1"></td>
                 <td>3</td>
-                <td><input type="text" onchange="check(42, board1, table1, gameBoard1)" id="42" size="1"></td>
-                <td><input type="text" onchange="check(43, board1, table1, gameBoard1)" id="43" size="1"></td>
+                <td><input type="text" onchange="check('1,42', board1, 'table1', gameBoard1)" id="1,42" size="1"></td>
+                <td><input type="text" onchange="check('1,43', board1, 'table1', gameBoard1)" id="1,43" size="1"></td>
                 <td>1</td>
             </tr>
             <tr>
                 <td>7</td>
-                <td><input type="text" onchange="check(46, board1, table1, gameBoard1)" id="46" size="1"></td>
-                <td><input type="text" onchange="check(47, board1, table1, gameBoard1)" id="47" size="1"></td>
-                <td><input type="text" onchange="check(48, board1, table1, gameBoard1)" id="48" size="1"></td>
+                <td><input type="text" onchange="check('1,46', board1, 'table1', gameBoard1)" id="1,46" size="1"></td>
+                <td><input type="text" onchange="check('1,47', board1, 'table1', gameBoard1)" id="1,47" size="1"></td>
+                <td><input type="text" onchange="check('1,48', board1, 'table1', gameBoard1)" id="1,48" size="1"></td>
                 <td>2</td>
-                <td><input type="text" onchange="check(50, board1, table1, gameBoard1)" id="50" size="1"></td>
-                <td><input type="text" onchange="check(51, board1, table1, gameBoard1)" id="51" size="1"></td>
-                <td><input type="text" onchange="check(52, board1, table1, gameBoard1)" id="52" size="1"></td>
+                <td><input type="text" onchange="check('1,50', board1, 'table1', gameBoard1)" id="1,50" size="1"></td>
+                <td><input type="text" onchange="check('1,51', board1, 'table1', gameBoard1)" id="1,51" size="1"></td>
+                <td><input type="text" onchange="check('1,52', board1, 'table1', gameBoard1)" id="1,52" size="1"></td>
                 <td>6</td>
             </tr>
             <tr>
-                <td><input type="text" onchange="check(54, board1, table1, gameBoard1)" id="54" size="1"></td>
+                <td><input type="text" onchange="check('1,54', board1, 'table1', gameBoard1)" id="1,54" size="1"></td>
                 <td>6</td>
-                <td><input type="text" onchange="check(56, board1, table1, gameBoard1)" id="56" size="1"></td>
-                <td><input type="text" onchange="check(57, board1, table1, gameBoard1)" id="57" size="1"></td>
-                <td><input type="text" onchange="check(58, board1, table1, gameBoard1)" id="58" size="1"></td>
-                <td><input type="text" onchange="check(59, board1, table1, gameBoard1)" id="59" size="1"></td>
+                <td><input type="text" onchange="check('1,56', board1, 'table1', gameBoard1)" id="1,56" size="1"></td>
+                <td><input type="text" onchange="check('1,57', board1, 'table1', gameBoard1)" id="1,57" size="1"></td>
+                <td><input type="text" onchange="check('1,58', board1, 'table1', gameBoard1)" id="1,58" size="1"></td>
+                <td><input type="text" onchange="check('1,59', board1, 'table1', gameBoard1)" id="1,59" size="1"></td>
                 <td>2</td>
                 <td>8</td>
-                <td><input type="text" onchange="check(62, board1, table1, gameBoard1)" id="62" size="1"></td>
+                <td><input type="text" onchange="check('1,62', board1, 'table1', gameBoard1)" id="1,62" size="1"></td>
             </tr>
             <tr>
-                <td><input type="text" onchange="check(63, board1, table1, gameBoard1)" id="63" size="1"></td>
-                <td><input type="text" onchange="check(64, board1, table1, gameBoard1)" id="64" size="1"></td>
-                <td><input type="text" onchange="check(65, board1, table1, gameBoard1)" id="65" size="1"></td>
+                <td><input type="text" onchange="check('1,63', board1, 'table1', gameBoard1)" id="1,63" size="1"></td>
+                <td><input type="text" onchange="check('1,64', board1, 'table1', gameBoard1)" id="1,64" size="1"></td>
+                <td><input type="text" onchange="check('1,65', board1, 'table1', gameBoard1)" id="1,65" size="1"></td>
                 <td>4</td>
                 <td>1</td>
                 <td>9</td>
-                <td><input type="text" onchange="check(69, board1, table1, gameBoard1)" id="69" size="1"></td>
-                <td><input type="text" onchange="check(70, board1, table1, gameBoard1)" id="70" size="1"></td>
+                <td><input type="text" onchange="check('1,69', board1, 'table1', gameBoard1)" id="1,69" size="1"></td>
+                <td><input type="text" onchange="check('1,70', board1, 'table1', gameBoard1)" id="1,70" size="1"></td>
                 <td>5</td>
             </tr>
             <tr>
-                <td><input type="text" onchange="check(72, board1, table1, gameBoard1)" id="72" size="1"></td>
-                <td><input type="text" onchange="check(73, board1, table1, gameBoard1)" id="73" size="1"></td>
-                <td><input type="text" onchange="check(74, board1, table1, gameBoard1)" id="74" size="1"></td>
-                <td><input type="text" onchange="check(75, board1, table1, gameBoard1)" id="75" size="1"></td>
+                <td><input type="text" onchange="check('1,72', board1, 'table1', gameBoard1)" id="1,72" size="1"></td>
+                <td><input type="text" onchange="check('1,73', board1, 'table1', gameBoard1)" id="1,73" size="1"></td>
+                <td><input type="text" onchange="check('1,74', board1, 'table1', gameBoard1)" id="1,74" size="1"></td>
+                <td><input type="text" onchange="check('1,75', board1, 'table1', gameBoard1)" id="1,75" size="1"></td>
                 <td>8</td>
-                <td><input type="text" onchange="check(77, board1, table1, gameBoard1)" id="77" size="1"></td>
-                <td><input type="text" onchange="check(78, board1, table1, gameBoard1)" id="78" size="1"></td>
+                <td><input type="text" onchange="check('1,77', board1, 'table1', gameBoard1)" id="1,77" size="1"></td>
+                <td><input type="text" onchange="check('1,78', board1, 'table1', gameBoard1)" id="1,78" size="1"></td>
                 <td>7</td>
                 <td>9</td>
             </tr>
         </table>
-    </form>
-    <form>
-        <table id="table3">
+        <table id="table2" style="display: none">
             <tr>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
                 <td>4</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('2,1', board2, 'table2', gameBoard2)" id="2,1" size="1"></td>
+                <td>5</td>
+                <td>9</td>
+                <td><input type="text" onchange="check('2,4', board2, 'table2', gameBoard2)" id="2,4" size="1"></td>
+                <td><input type="text" onchange="check('2,5', board2, 'table2', gameBoard2)" id="2,5" size="1"></td>
+                <td><input type="text" onchange="check('2,6', board2, 'table2', gameBoard2)" id="2,6" size="1"></td>
+                <td><input type="text" onchange="check('2,7', board2, 'table2', gameBoard2)" id="2,7" size="1"></td>
+                <td><input type="text" onchange="check('2,8', board2, 'table2', gameBoard2)" id="2,8" size="1"></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><input type="text" onchange="check('2,10', board2, 'table2', gameBoard2)" id="2,10" size="1"></td>
+                <td>9</td>
+                <td><input type="text" onchange="check('2,12', board2, 'table2', gameBoard2)" id="2,12" size="1"></td>
+                <td>8</td>
+                <td>6</td>
+                <td><input type="text" onchange="check('2,15', board2, 'table2', gameBoard2)" id="2,15" size="1"></td>
+                <td><input type="text" onchange="check('2,16', board2, 'table2', gameBoard2)" id="2,16" size="1"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('2,18', board2, 'table2', gameBoard2)" id="2,18" size="1"></td>
+                <td><input type="text" onchange="check('2,19', board2, 'table2', gameBoard2)" id="2,19" size="1"></td>
+                <td>3</td>
+                <td><input type="text" onchange="check('2,21', board2, 'table2', gameBoard2)" id="2,21" size="1"></td>
+                <td>4</td>
+                <td><input type="text" onchange="check('2,23', board2, 'table2', gameBoard2)" id="2,23" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('2,25', board2, 'table2', gameBoard2)" id="2,25" size="1"></td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><input type="text" onchange="check('2,28', board2, 'table2', gameBoard2)" id="2,28" size="1"></td>
+                <td><input type="text" onchange="check('2,29', board2, 'table2', gameBoard2)" id="2,29" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('2,31', board2, 'table2', gameBoard2)" id="2,31" size="1"></td>
+                <td><input type="text" onchange="check('2,32', board2, 'table2', gameBoard2)" id="2,32" size="1"></td>
+                <td><input type="text" onchange="check('2,33', board2, 'table2', gameBoard2)" id="2,33" size="1"></td>
+                <td><input type="text" onchange="check('2,34', board2, 'table2', gameBoard2)" id="2,34" size="1"></td>
+                <td><input type="text" onchange="check('2,35', board2, 'table2', gameBoard2)" id="2,35" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('2,36', board2, 'table2', gameBoard2)" id="2,36" size="1"></td>
+                <td>3</td>
+                <td><input type="text" onchange="check('2,38', board2, 'table2', gameBoard2)" id="2,38" size="1"></td>
+                <td><input type="text" onchange="check('2,39', board2, 'table2', gameBoard2)" id="2,39" size="1"></td>
+                <td><input type="text" onchange="check('2,40', board2, 'table2', gameBoard2)" id="2,40" size="1"></td>
+                <td><input type="text" onchange="check('2,41', board2, 'table2', gameBoard2)" id="2,41" size="1"></td>
+                <td><input type="text" onchange="check('2,42', board2, 'table2', gameBoard2)" id="2,42" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check('2,44', board2, 'table2', gameBoard2)" id="2,44" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('2,45', board2, 'table2', gameBoard2)" id="2,45" size="1"></td>
+                <td><input type="text" onchange="check('2,46', board2, 'table2', gameBoard2)" id="2,46" size="1"></td>
+                <td><input type="text" onchange="check('2,47', board2, 'table2', gameBoard2)" id="2,47" size="1"></td>
+                <td><input type="text" onchange="check('2,48', board2, 'table2', gameBoard2)" id="2,48" size="1"></td>
+                <td><input type="text" onchange="check('2,49', board2, 'table2', gameBoard2)" id="2,49" size="1"></td>
                 <td>1</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('2,51', board2, 'table2', gameBoard2)" id="2,51" size="1"></td>
+                <td><input type="text" onchange="check('2,52', board2, 'table2', gameBoard2)" id="2,52" size="1"></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><input type="text" onchange="check('2,55', board2, 'table2', gameBoard2)" id="2,55" size="1"></td>
+                <td>4</td>
+                <td><input type="text" onchange="check('2,57', board2, 'table2', gameBoard2)" id="2,57" size="1"></td>
+                <td>6</td>
+                <td><input type="text" onchange="check('2,59', board2, 'table2', gameBoard2)" id="2,59" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('2,61', board2, 'table2', gameBoard2)" id="2,61" size="1"></td>
+                <td><input type="text" onchange="check('2,62', board2, 'table2', gameBoard2)" id="2,62" size="1"></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><input type="text" onchange="check('2,64', board2, 'table2', gameBoard2)" id="2,64" size="1"></td>
+                <td><input type="text" onchange="check('2,65', board2, 'table2', gameBoard2)" id="2,65" size="1"></td>
+                <td>7</td>
+                <td>1</td>
+                <td><input type="text" onchange="check('2,68', board2, 'table2', gameBoard2)" id="2,68" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check('2,70', board2, 'table2', gameBoard2)" id="2,70" size="1"></td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('2,72', board2, 'table2', gameBoard2)" id="2,72" size="1"></td>
+                <td><input type="text" onchange="check('2,73', board2, 'table2', gameBoard2)" id="2,73" size="1"></td>
+                <td><input type="text" onchange="check('2,74', board2, 'table2', gameBoard2)" id="2,74" size="1"></td>
+                <td><input type="text" onchange="check('2,75', board2, 'table2', gameBoard2)" id="2,75" size="1"></td>
+                <td><input type="text" onchange="check('2,76', board2, 'table2', gameBoard2)" id="2,76" size="1"></td>
+                <td>9</td>
+                <td>6</td>
+                <td><input type="text" onchange="check('2,79', board2, 'table2', gameBoard2)" id="2,79" size="1"></td>
+                <td>1</td>
+            </tr>
+        </table>
+        <table id="table3" style="display: none">
+            <tr>
+                <td><input type="text" onchange="check('3,0', board3, 'table3', gameBoard3)" id="3,0" size="1"></td>
+                <td>4</td>
+                <td><input type="text" onchange="check('3,2', board3, 'table3', gameBoard3)" id="3,2" size="1"></td>
+                <td><input type="text" onchange="check('3,3', board3, 'table3', gameBoard3)" id="3,3" size="1"></td>
+                <td><input type="text" onchange="check('3,4', board3, 'table3', gameBoard3)" id="3,4" size="1"></td>
+                <td><input type="text" onchange="check('3,5', board3, 'table3', gameBoard3)" id="3,5" size="1"></td>
+                <td>1</td>
+                <td><input type="text" onchange="check('3,7', board3, 'table3', gameBoard3)" id="3,7" size="1"></td>
                 <td>6</td>
             </tr>
             <tr>
                 <td>3</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,10', board3, 'table3', gameBoard3)" id="3,10" size="1"></td>
                 <td>6</td>
                 <td>7</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,13', board3, 'table3', gameBoard3)" id="3,13" size="1"></td>
                 <td>9</td>
                 <td>8</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,16', board3, 'table3', gameBoard3)" id="3,16" size="1"></td>
+                <td><input type="text" onchange="check('3,17', board3, 'table3', gameBoard3)" id="3,17" size="1"></td>
             </tr>
             <tr>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,18', board3, 'table3', gameBoard3)" id="3,18" size="1"></td>
+                <td><input type="text" onchange="check('3,19', board3, 'table3', gameBoard3)" id="3,19" size="1"></td>
                 <td>1</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,21', board3, 'table3', gameBoard3)" id="3,21" size="1"></td>
                 <td>3</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,23', board3, 'table3', gameBoard3)" id="3,23" size="1"></td>
+                <td><input type="text" onchange="check('3,24', board3, 'table3', gameBoard3)" id="3,24" size="1"></td>
+                <td><input type="text" onchange="check('3,25', board3, 'table3', gameBoard3)" id="3,25" size="1"></td>
                 <td>7</td>
             </tr>
             <tr>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,27', board3, 'table3', gameBoard3)" id="3,27" size="1"></td>
+                <td><input type="text" onchange="check('3,28', board3, 'table3', gameBoard3)" id="3,28" size="1"></td>
                 <td>9</td>
                 <td>8</td>
                 <td>6</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,32', board3, 'table3', gameBoard3)" id="3,32" size="1"></td>
+                <td><input type="text" onchange="check('3,33', board3, 'table3', gameBoard3)" id="3,33" size="1"></td>
+                <td><input type="text" onchange="check('3,34', board3, 'table3', gameBoard3)" id="3,34" size="1"></td>
+                <td><input type="text" onchange="check('3,35', board3, 'table3', gameBoard3)" id="3,35" size="1"></td>
             </tr>
             <tr>
                 <td>8</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,37', board3, 'table3', gameBoard3)" id="3,37" size="1"></td>
+                <td><input type="text" onchange="check('3,38', board3, 'table3', gameBoard3)" id="3,38" size="1"></td>
+                <td><input type="text" onchange="check('3,39', board3, 'table3', gameBoard3)" id="3,39" size="1"></td>
+                <td><input type="text" onchange="check('3,40', board3, 'table3', gameBoard3)" id="3,40" size="1"></td>
+                <td><input type="text" onchange="check('3,41', board3, 'table3', gameBoard3)" id="3,41" size="1"></td>
+                <td><input type="text" onchange="check('3,42', board3, 'table3', gameBoard3)" id="3,43" size="1"></td>
+                <td><input type="text" onchange="check('3,43', board3, 'table3', gameBoard3)" id="3,44" size="1"></td>
                 <td>3</td>
             </tr>
             <tr>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,45', board3, 'table3', gameBoard3)" id="3,45" size="1"></td>
+                <td><input type="text" onchange="check('3,46', board3, 'table3', gameBoard3)" id="3,46" size="1"></td>
+                <td><input type="text" onchange="check('3,47', board3, 'table3', gameBoard3)" id="3,47" size="1"></td>
+                <td><input type="text" onchange="check('3,48', board3, 'table3', gameBoard3)" id="3,48" size="1"></td>
                 <td>7</td>
                 <td>2</td>
                 <td>6</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,52', board3, 'table3', gameBoard3)" id="3,52" size="1"></td>
+                <td><input type="text" onchange="check('3,53', board3, 'table3', gameBoard3)" id="3,53" size="1"></td>
             </tr>
             <tr>
                 <td>1</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,55', board3, 'table3', gameBoard3)" id="3,55" size="1"></td>
+                <td><input type="text" onchange="check('3,56', board3, 'table3', gameBoard3)" id="3,56" size="1"></td>
+                <td><input type="text" onchange="check('3,57', board3, 'table3', gameBoard3)" id="3,57" size="1"></td>
                 <td>5</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,59', board3, 'table3', gameBoard3)" id="3,59" size="1"></td>
                 <td>3</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,61', board3, 'table3', gameBoard3)" id="3,61" size="1"></td>
+                <td><input type="text" onchange="check('3,62', board3, 'table3', gameBoard3)" id="3,62" size="1"></td>
             </tr>
             <tr>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,63', board3, 'table3', gameBoard3)" id="3,63" size="1"></td>
+                <td><input type="text" onchange="check('3,64', board3, 'table3', gameBoard3)" id="3,64" size="1"></td>
                 <td>5</td>
                 <td>4</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,67', board3, 'table3', gameBoard3)" id="3,67" size="1"></td>
                 <td>6</td>
                 <td>9</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,70', board3, 'table3', gameBoard3)" id="3,70" size="1"></td>
                 <td>1</td>
             </tr>
             <tr>
                 <td>6</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,73', board3, 'table3', gameBoard3)" id="3,73" size="1"></td>
                 <td>4</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,75', board3, 'table3', gameBoard3)" id="3,75" size="1"></td>
+                <td><input type="text" onchange="check('3,76', board3, 'table3', gameBoard3)" id="3,76" size="1"></td>
+                <td><input type="text" onchange="check('3,77', board3, 'table3', gameBoard3)" id="3,77" size="1"></td>
+                <td><input type="text" onchange="check('3,78', board3, 'table3', gameBoard3)" id="3,78" size="1"></td>
                 <td>2</td>
-                <td><input type="text" onchange="check(0, board3, table3, gameBoard3)" id="0" size="1"></td>
+                <td><input type="text" onchange="check('3,80', board3, 'table3', gameBoard3)" id="3,80" size="1"></td>
             </tr>
 
+        </table>
+        <table id="table4" style="display:none">
+            <tr>
+                <td><input type="text" onchange="check('4,0', board4, 'table4', gameBoard4)" id="4,0" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('4,2', board4, 'table4', gameBoard4)" id="4,2" size="1"></td>
+                <td><input type="text" onchange="check('4,3', board4, 'table4', gameBoard4)" id="4,3" size="1"></td>
+                <td><input type="text" onchange="check('4,4', board4, 'table4', gameBoard4)" id="4,4" size="1"></td>
+                <td>9</td>
+                <td>4</td>
+                <td><input type="text" onchange="check('4,7', board4, 'table4', gameBoard4)" id="4,7" size="1"></td>
+                <td><input type="text" onchange="check('4,8', board4, 'table4', gameBoard4)" id="4,8" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('4,9', board4, 'table4', gameBoard4)" id="4,9" size="1"></td>
+                <td><input type="text" onchange="check('4,10', board4, 'table4', gameBoard4)" id="4,10" size="1"></td>
+                <td><input type="text" onchange="check('4,11', board4, 'table4', gameBoard4)" id="4,11" size="1"></td>
+                <td><input type="text" onchange="check('4,12', board4, 'table4', gameBoard4)" id="4,12" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('4,14', board4, 'table4', gameBoard4)" id="4,14" size="1"></td>
+                <td><input type="text" onchange="check('4,15', board4, 'table4', gameBoard4)" id="4,15" size="1"></td>
+                <td><input type="text" onchange="check('4,16', board4, 'table4', gameBoard4)" id="4,16" size="1"></td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('4,18', board4, 'table4', gameBoard4)" id="4,18" size="1"></td>
+                <td>6</td>
+                <td><input type="text" onchange="check('4,20', board4, 'table4', gameBoard4)" id="4,20" size="1"></td>
+                <td><input type="text" onchange="check('4,21', board4, 'table4', gameBoard4)" id="4,21" size="1"></td>
+                <td>1</td>
+                <td><input type="text" onchange="check('4,23', board4, 'table4', gameBoard4)" id="4,23" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check('4,25', board4, 'table4', gameBoard4)" id="4,25" size="1"></td>
+                <td><input type="text" onchange="check('4,26', board4, 'table4', gameBoard4)" id="4,26" size="1"></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><input type="text" onchange="check('4,28', board4, 'table4', gameBoard4)" id="4,28" size="1"></td>
+                <td><input type="text" onchange="check('4,29', board4, 'table4', gameBoard4)" id="4,29" size="1"></td>
+                <td><input type="text" onchange="check('4,30', board4, 'table4', gameBoard4)" id="4,30" size="1"></td>
+                <td><input type="text" onchange="check('4,31', board4, 'table4', gameBoard4)" id="4,31" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('4,33', board4, 'table4', gameBoard4)" id="4,33" size="1"></td>
+                <td><input type="text" onchange="check('4,34', board4, 'table4', gameBoard4)" id="4,34" size="1"></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('4,36', board4, 'table4', gameBoard4)" id="4,36" size="1"></td>
+                <td><input type="text" onchange="check('4,37', board4, 'table4', gameBoard4)" id="4,37" size="1"></td>
+                <td>2</td>
+                <td>4</td>
+                <td><input type="text" onchange="check('4,40', board4, 'table4', gameBoard4)" id="4,40" size="1"></td>
+                <td>6</td>
+                <td>9</td>
+                <td><input type="text" onchange="check('4,43', board4, 'table4', gameBoard4)" id="4,43" size="1"></td>
+                <td><input type="text" onchange="check('4,44', board4, 'table4', gameBoard4)" id="4,44" size="1"></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><input type="text" onchange="check('4,46', board4, 'table4', gameBoard4)" id="4,46" size="1"></td>
+                <td><input type="text" onchange="check('4,47', board4, 'table4', gameBoard4)" id="4,47" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check('4,49', board4, 'table4', gameBoard4)" id="4,49" size="1"></td>
+                <td><input type="text" onchange="check('4,50', board4, 'table4', gameBoard4)" id="4,50" size="1"></td>
+                <td><input type="text" onchange="check('4,51', board4, 'table4', gameBoard4)" id="4,51" size="1"></td>
+                <td><input type="text" onchange="check('4,52', board4, 'table4', gameBoard4)" id="4,52" size="1"></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('4,54', board4, 'table4', gameBoard4)" id="4,54" size="1"></td>
+                <td><input type="text" onchange="check('4,55', board4, 'table4', gameBoard4)" id="4,55" size="1"></td>
+                <td>9</td>
+                <td><input type="text" onchange="check('4,57', board4, 'table4', gameBoard4)" id="4,57" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check('4,59', board4, 'table4', gameBoard4)" id="4,59" size="1"></td>
+                <td><input type="text" onchange="check('4,60', board4, 'table4', gameBoard4)" id="4,60" size="1"></td>
+                <td><input type="text" onchange="check('4,61', board4, 'table4', gameBoard4)" id="4,61" size="1"></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('4,63', board4, 'table4', gameBoard4)" id="4,63" size="1"></td>
+                <td><input type="text" onchange="check('4,64', board4, 'table4', gameBoard4)" id="4,64" size="1"></td>
+                <td>9</td>
+                <td>2</td>
+                <td><input type="text" onchange="check('4,67', board4, 'table4', gameBoard4)" id="4,67" size="1"></td>
+                <td><input type="text" onchange="check('4,68', board4, 'table4', gameBoard4)" id="4,68" size="1"></td>
+                <td><input type="text" onchange="check('4,69', board4, 'table4', gameBoard4)" id="4,69" size="1"></td>
+                <td><input type="text" onchange="check('4,70', board4, 'table4', gameBoard4)" id="4,70" size="1"></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><input type="text" onchange="check('4,73', board4, 'table4', gameBoard4)" id="4,73" size="1"></td>
+                <td><input type="text" onchange="check('4,74', board4, 'table4', gameBoard4)" id="4,74" size="1"></td>
+                <td><input type="text" onchange="check('4,75', board4, 'table4', gameBoard4)" id="4,75" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('4,77', board4, 'table4', gameBoard4)" id="4,77" size="1"></td>
+                <td><input type="text" onchange="check('4,78', board4, 'table4', gameBoard4)" id="4,78" size="1"></td>
+                <td><input type="text" onchange="check('4,79', board4, 'table4', gameBoard4)" id="4,79" size="1"></td>
+                <td><input type="text" onchange="check('4,80', board4, 'table4', gameBoard4)" id="4,80" size="1"></td>
+            </tr>
+        </table>
+        <table id="table5" style="display:none">
+            <tr>
+                <td>2</td>
+                <td><input type="text" onchange="check('5,1', board5, 'table5', gameBoard5)" id="5,1" size="1"></td>
+                <td><input type="text" onchange="check('5,2', board5, 'table5', gameBoard5)" id="5,2" size="1"></td>
+                <td><input type="text" onchange="check('5,3', board5, 'table5', gameBoard5)" id="5,3" size="1"></td>
+                <td><input type="text" onchange="check('5,4', board5, 'table5', gameBoard5)" id="5,4" size="1"></td>
+                <td><input type="text" onchange="check('5,5', board5, 'table5', gameBoard5)" id="5,5" size="1"></td>
+                <td><input type="text" onchange="check('5,6', board5, 'table5', gameBoard5)" id="5,6" size="1"></td>
+                <td><input type="text" onchange="check('5,7', board5, 'table5', gameBoard5)" id="5,7" size="1"></td>
+                <td><input type="text" onchange="check('5,8', board5, 'table5', gameBoard5)" id="5,8" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('5,9', board5, 'table5', gameBoard5)" id="5,9" size="1"></td>
+                <td><input type="text" onchange="check('5,10', board5, 'table5', gameBoard5)" id="5,10" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('5,12', board5, 'table5', gameBoard5)" id="5,12" size="1"></td>
+                <td><input type="text" onchange="check('5,13', board5, 'table5', gameBoard5)" id="5,13" size="1"></td>
+                <td>7</td>
+                <td>9</td>
+                <td><input type="text" onchange="check('5,16', board5, 'table5', gameBoard5)" id="5,16" size="1"></td>
+                <td><input type="text" onchange="check('5,17', board5, 'table5', gameBoard5)" id="5,17" size="1"></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><input type="text" onchange="check('5,19', board5, 'table5', gameBoard5)" id="5,19" size="1"></td>
+                <td><input type="text" onchange="check('5,20', board5, 'table5', gameBoard5)" id="5,20" size="1"></td>
+                <td><input type="text" onchange="check('5,21', board5, 'table5', gameBoard5)" id="5,21" size="1"></td>
+                <td><input type="text" onchange="check('5,22', board5, 'table5', gameBoard5)" id="5,22" size="1"></td>
+                <td>3</td>
+                <td>6</td>
+                <td><input type="text" onchange="check('5,25', board5, 'table5', gameBoard5)" id="5,25" size="1"></td>
+                <td><input type="text" onchange="check('5,26', board5, 'table5', gameBoard5)" id="5,26" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('5,27', board5, 'table5', gameBoard5)" id="5,27" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('5,29', board5, 'table5', gameBoard5)" id="5,29" size="1"></td>
+                <td><input type="text" onchange="check('5,30', board5, 'table5', gameBoard5)" id="5,30" size="1"></td>
+                <td>1</td>
+                <td><input type="text" onchange="check('5,32', board5, 'table5', gameBoard5)" id="5,32" size="1"></td>
+                <td><input type="text" onchange="check('5,33', board5, 'table5', gameBoard5)" id="5,33" size="1"></td>
+                <td><input type="text" onchange="check('5,34', board5, 'table5', gameBoard5)" id="5,34" size="1"></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><input type="text" onchange="check('5,37', board5, 'table5', gameBoard5)" id="5,37" size="1"></td>
+                <td><input type="text" onchange="check('5,38', board5, 'table5', gameBoard5)" id="5,38" size="1"></td>
+                <td><input type="text" onchange="check('5,39', board5, 'table5', gameBoard5)" id="5,39" size="1"></td>
+                <td><input type="text" onchange="check('5,40', board5, 'table5', gameBoard5)" id="5,40" size="1"></td>
+                <td><input type="text" onchange="check('5,41', board5, 'table5', gameBoard5)" id="5,41" size="1"></td>
+                <td><input type="text" onchange="check('5,42', board5, 'table5', gameBoard5)" id="5,42" size="1"></td>
+                <td><input type="text" onchange="check('5,43', board5, 'table5', gameBoard5)" id="5,43" size="1"></td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><input type="text" onchange="check('5,46', board5, 'table5', gameBoard5)" id="5,46" size="1"></td>
+                <td><input type="text" onchange="check('5,47', board5, 'table5', gameBoard5)" id="5,47" size="1"></td>
+                <td><input type="text" onchange="check('5,48', board5, 'table5', gameBoard5)" id="5,48" size="1"></td>
+                <td>4</td>
+                <td><input type="text" onchange="check('5,50', board5, 'table5', gameBoard5)" id="5,50" size="1"></td>
+                <td><input type="text" onchange="check('5,51', board5, 'table5', gameBoard5)" id="5,51" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('5,53', board5, 'table5', gameBoard5)" id="5,53" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('5,54', board5, 'table5', gameBoard5)" id="5,54" size="1"></td>
+                <td><input type="text" onchange="check('5,55', board5, 'table5', gameBoard5)" id="5,55" size="1"></td>
+                <td>9</td>
+                <td>5</td>
+                <td><input type="text" onchange="check('5,58', board5, 'table5', gameBoard5)" id="5,58" size="1"></td>
+                <td><input type="text" onchange="check('5,59', board5, 'table5', gameBoard5)" id="5,59" size="1"></td>
+                <td><input type="text" onchange="check('5,60', board5, 'table5', gameBoard5)" id="5,60" size="1"></td>
+                <td><input type="text" onchange="check('5,61', board5, 'table5', gameBoard5)" id="5,61" size="1"></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('5,63', board5, 'table5', gameBoard5)" id="5,63" size="1"></td>
+                <td><input type="text" onchange="check('5,64', board5, 'table5', gameBoard5)" id="5,64" size="1"></td>
+                <td>1</td>
+                <td>8</td>
+                <td><input type="text" onchange="check('5,67', board5, 'table5', gameBoard5)" id="5,67" size="1"></td>
+                <td><input type="text" onchange="check('5,68', board5, 'table5', gameBoard5)" id="5,68" size="1"></td>
+                <td>4</td>
+                <td><input type="text" onchange="check('5,70', board5, 'table5', gameBoard5)" id="5,70" size="1"></td>
+                <td><input type="text" onchange="check('5,71', board5, 'table5', gameBoard5)" id="5,71" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('5,72', board5, 'table5', gameBoard5)" id="5,72" size="1"></td>
+                <td><input type="text" onchange="check('5,73', board5, 'table5', gameBoard5)" id="5,73" size="1"></td>
+                <td><input type="text" onchange="check('5,74', board5, 'table5', gameBoard5)" id="5,74" size="1"></td>
+                <td><input type="text" onchange="check('5,75', board5, 'table5', gameBoard5)" id="5,75" size="1"></td>
+                <td><input type="text" onchange="check('5,76', board5, 'table5', gameBoard5)" id="5,76" size="1"></td>
+                <td><input type="text" onchange="check('5,77', board5, 'table5', gameBoard5)" id="5,77" size="1"></td>
+                <td><input type="text" onchange="check('5,78', board5, 'table5', gameBoard5)" id="5,78" size="1"></td>
+                <td><input type="text" onchange="check('5,79', board5, 'table5', gameBoard5)" id="5,79" size="1"></td>
+                <td>3</td>
+            </tr>
+        </table>
+        <table id="table6" style="display:none">
+            <tr>
+                <td>6</td>
+                <td>3</td>
+                <td><input type="text" onchange="check('6,2', board6, 'table6', gameBoard6)" id="6,2" size="1"></td>
+                <td><input type="text" onchange="check('6,3', board6, 'table6', gameBoard6)" id="6,3" size="1"></td>
+                <td>5</td>
+                <td>9</td>
+                <td>4</td>
+                <td><input type="text" onchange="check('6,7', board6, 'table6', gameBoard6)" id="6,7" size="1"></td>
+                <td><input type="text" onchange="check('6,8', board6, 'table6', gameBoard6)" id="6,8" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('6,9', board6, 'table6', gameBoard6)" id="6,9" size="1"></td>
+                <td><input type="text" onchange="check('6,10', board6, 'table6', gameBoard6)" id="6,10" size="1"></td>
+                <td>9</td>
+                <td><input type="text" onchange="check('6,12', board6, 'table6', gameBoard6)" id="6,12" size="1"></td>
+                <td><input type="text" onchange="check('6,13', board6, 'table6', gameBoard6)" id="6,13" size="1"></td>
+                <td>7</td>
+                <td><input type="text" onchange="check('6,15', board6, 'table6', gameBoard6)" id="6,15" size="1"></td>
+                <td><input type="text" onchange="check('6,16', board6, 'table6', gameBoard6)" id="6,16" size="1"></td>
+                <td><input type="text" onchange="check('6,17', board6, 'table6', gameBoard6)" id="6,17" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('6,18', board6, 'table6', gameBoard6)" id="6,18" size="1"></td>
+                <td><input type="text" onchange="check('6,19', board6, 'table6', gameBoard6)" id="6,19" size="1"></td>
+                <td><input type="text" onchange="check('6,20', board6, 'table6', gameBoard6)" id="6,20" size="1"></td>
+                <td>4</td>
+                <td><input type="text" onchange="check('6,22', board6, 'table6', gameBoard6)" id="6,22" size="1"></td>
+                <td><input type="text" onchange="check('6,23', board6, 'table6', gameBoard6)" id="6,23" size="1"></td>
+                <td><input type="text" onchange="check('6,24', board6, 'table6', gameBoard6)" id="6,24" size="1"></td>
+                <td>2</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><input type="text" onchange="check('6,28', board6, 'table6', gameBoard6)" id="6,28" size="1"></td>
+                <td><input type="text" onchange="check('6,29', board6, 'table6', gameBoard6)" id="6,29" size="1"></td>
+                <td>9</td>
+                <td><input type="text" onchange="check('6,31', board6, 'table6', gameBoard6)" id="6,31" size="1"></td>
+                <td><input type="text" onchange="check('6,32', board6, 'table6', gameBoard6)" id="6,32" size="1"></td>
+                <td><input type="text" onchange="check('6,33', board6, 'table6', gameBoard6)" id="6,33" size="1"></td>
+                <td>8</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('6,36', board6, 'table6', gameBoard6)" id="6,36" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('6,38', board6, 'table6', gameBoard6)" id="6,38" size="1"></td>
+                <td><input type="text" onchange="check('6,39', board6, 'table6', gameBoard6)" id="6,39" size="1"></td>
+                <td><input type="text" onchange="check('6,40', board6, 'table6', gameBoard6)" id="6,40" size="1"></td>
+                <td><input type="text" onchange="check('6,41', board6, 'table6', gameBoard6)" id="6,41" size="1"></td>
+                <td><input type="text" onchange="check('6,42', board6, 'table6', gameBoard6)" id="6,42" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('6,44', board6, 'table6', gameBoard6)" id="6,44" size="1"></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>9</td>
+                <td><input type="text" onchange="check('6,47', board6, 'table6', gameBoard6)" id="6,47" size="1"></td>
+                <td><input type="text" onchange="check('6,48', board6, 'table6', gameBoard6)" id="6,48" size="1"></td>
+                <td><input type="text" onchange="check('6,49', board6, 'table6', gameBoard6)" id="6,49" size="1"></td>
+                <td>1</td>
+                <td><input type="text" onchange="check('6,51', board6, 'table6', gameBoard6)" id="6,51" size="1"></td>
+                <td><input type="text" onchange="check('6,52', board6, 'table6', gameBoard6)" id="6,52" size="1"></td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>1</td>
+                <td><input type="text" onchange="check('6,56', board6, 'table6', gameBoard6)" id="6,56" size="1"></td>
+                <td><input type="text" onchange="check('6,57', board6, 'table6', gameBoard6)" id="6,57" size="1"></td>
+                <td><input type="text" onchange="check('6,58', board6, 'table6', gameBoard6)" id="6,58" size="1"></td>
+                <td>6</td>
+                <td><input type="text" onchange="check('6,60', board6, 'table6', gameBoard6)" id="6,60" size="1"></td>
+                <td><input type="text" onchange="check('6,61', board6, 'table6', gameBoard6)" id="6,61" size="1"></td>
+                <td><input type="text" onchange="check('6,62', board6, 'table6', gameBoard6)" id="6,62" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('6,63', board6, 'table6', gameBoard6)" id="6,63" size="1"></td>
+                <td><input type="text" onchange="check('6,64', board6, 'table6', gameBoard6)" id="6,64" size="1"></td>
+                <td><input type="text" onchange="check('6,65', board6, 'table6', gameBoard6)" id="6,65" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('6,67', board6, 'table6', gameBoard6)" id="6,67" size="1"></td>
+                <td><input type="text" onchange="check('6,68', board6, 'table6', gameBoard6)" id="6,68" size="1"></td>
+                <td>1</td>
+                <td><input type="text" onchange="check('6,70', board6, 'table6', gameBoard6)" id="6,70" size="1"></td>
+                <td><input type="text" onchange="check('6,71', board6, 'table6', gameBoard6)" id="6,71" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('6,72', board6, 'table6', gameBoard6)" id="6,72" size="1"></td>
+                <td><input type="text" onchange="check('6,73', board6, 'table6', gameBoard6)" id="6,73" size="1"></td>
+                <td>7</td>
+                <td>3</td>
+                <td>1</td>
+                <td><input type="text" onchange="check('6,77', board6, 'table6', gameBoard6)" id="6,77" size="1"></td>
+                <td><input type="text" onchange="check('6,78', board6, 'table6', gameBoard6)" id="6,78" size="1"></td>
+                <td>4</td>
+                <td>8</td>
+            </tr>
+        </table>
+        <table id="table7" style="display: none">
+            <tr>
+                <td><input type="text" onchange="check('7,0', board7, 'table7', gameBoard7)" id="7,0" size="1"></td>
+                <td><input type="text" onchange="check('7,1', board7, 'table7', gameBoard7)" id="7,1" size="1"></td>
+                <td><input type="text" onchange="check('7,2', board7, 'table7', gameBoard7)" id="7,2" size="1"></td>
+                <td><input type="text" onchange="check('7,3', board7, 'table7', gameBoard7)" id="7,3" size="1"></td>
+                <td><input type="text" onchange="check('7,4', board7, 'table7', gameBoard7)" id="7,4" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check('7,6', board7, 'table7', gameBoard7)" id="7,6" size="1"></td>
+                <td><input type="text" onchange="check('7,7', board7, 'table7', gameBoard7)" id="7,7" size="1"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('7,9', board7, 'table7', gameBoard7)" id="7,9" size="1"></td>
+                <td><input type="text" onchange="check('7,10', board7, 'table7', gameBoard7)" id="7,10" size="1"></td>
+                <td>2</td>
+                <td>7</td>
+                <td><input type="text" onchange="check('7,13', board7, 'table7', gameBoard7)" id="7,13" size="1"></td>
+                <td><input type="text" onchange="check('7,14', board7, 'table7', gameBoard7)" id="7,14" size="1"></td>
+                <td><input type="text" onchange="check('7,15', board7, 'table7', gameBoard7)" id="7,15" size="1"></td>
+                <td>4</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>9</td>
+                <td>4</td>
+                <td>1</td>
+                <td><input type="text" onchange="check('7,22', board7, 'table7', gameBoard7)" id="7,22" size="1"></td>
+                <td><input type="text" onchange="check('7,23', board7, 'table7', gameBoard7)" id="7,23" size="1"></td>
+                <td><input type="text" onchange="check('7,24', board7, 'table7', gameBoard7)" id="7,24" size="1"></td>
+                <td><input type="text" onchange="check('7,25', board7, 'table7', gameBoard7)" id="7,25" size="1"></td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><input type="text" onchange="check('7,28', board7, 'table7', gameBoard7)" id="7,28" size="1"></td>
+                <td>1</td>
+                <td>6</td>
+                <td><input type="text" onchange="check('7,31', board7, 'table7', gameBoard7)" id="7,31" size="1"></td>
+                <td><input type="text" onchange="check('7,32', board7, 'table7', gameBoard7)" id="7,32" size="1"></td>
+                <td><input type="text" onchange="check('7,33', board7, 'table7', gameBoard7)" id="7,33" size="1"></td>
+                <td><input type="text" onchange="check('7,34', board7, 'table7', gameBoard7)" id="7,34" size="1"></td>
+                <td><input type="text" onchange="check('7,35', board7, 'table7', gameBoard7)" id="7,35" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('7,36', board7, 'table7', gameBoard7)" id="7,36," size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check('7,38', board7, 'table7', gameBoard7)" id="7,38" size="1"></td>
+                <td><input type="text" onchange="check('7,39', board7, 'table7', gameBoard7)" id="7,39" size="1"></td>
+                <td><input type="text" onchange="check('7,40', board7, 'table7', gameBoard7)" id="7,40" size="1"></td>
+                <td><input type="text" onchange="check('7,41', board7, 'table7', gameBoard7)" id="7,41" size="1"></td>
+                <td><input type="text" onchange="check('7,42', board7, 'table7', gameBoard7)" id="7,42" size="1"></td>
+                <td>1</td>
+                <td><input type="text" onchange="check('7,44', board7, 'table7', gameBoard7)" id="7,44" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('7,45', board7, 'table7', gameBoard7)" id="7,45" size="1"></td>
+                <td><input type="text" onchange="check('7,46', board7, 'table7', gameBoard7)" id="7,46" size="1"></td>
+                <td><input type="text" onchange="check('7,47', board7, 'table7', gameBoard7)" id="7,47" size="1"></td>
+                <td><input type="text" onchange="check('7,48', board7, 'table7', gameBoard7)" id="7,48" size="1"></td>
+                <td><input type="text" onchange="check('7,49', board7, 'table7', gameBoard7)" id="7,49" size="1"></td>
+                <td>1</td>
+                <td>3</td>
+                <td><input type="text" onchange="check('7,52', board7, 'table7', gameBoard7)" id="7,53" size="1"></td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><input type="text" onchange="check('7,55', board7, 'table7', gameBoard7)" id="7,55" size="1"></td>
+                <td><input type="text" onchange="check('7,56', board7, 'table7', gameBoard7)" id="7,56" size="1"></td>
+                <td><input type="text" onchange="check('7,57', board7, 'table7', gameBoard7)" id="7,57" size="1"></td>
+                <td><input type="text" onchange="check('7,58', board7, 'table7', gameBoard7)" id="7,58" size="1"></td>
+                <td>3</td>
+                <td>9</td>
+                <td>5</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>1</td>
+                <td><input type="text" onchange="check('7,65', board7, 'table7', gameBoard7)" id="7,65" size="1"></td>
+                <td><input type="text" onchange="check('7,66', board7, 'table7', gameBoard7)" id="7,66" size="1"></td>
+                <td><input type="text" onchange="check('7,67', board7, 'table7', gameBoard7)" id="7,67" size="1"></td>
+                <td>7</td>
+                <td>4</td>
+                <td><input type="text" onchange="check('7,70', board7, 'table7', gameBoard7)" id="7,70" size="1"></td>
+                <td><input type="text" onchange="check('7,71', board7, 'table7', gameBoard7)" id="7,71" size="1"></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><input type="text" onchange="check('7,73', board7, 'table7', gameBoard7)" id="7,73" size="1"></td>
+                <td><input type="text" onchange="check('7,74', board7, 'table7', gameBoard7)" id="7,74" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('7,76', board7, 'table7', gameBoard7)" id="7,76" size="1"></td>
+                <td><input type="text" onchange="check('7,77', board7, 'table7', gameBoard7)" id="7,77" size="1"></td>
+                <td><input type="text" onchange="check('7,78', board7, 'table7', gameBoard7)" id="7,78" size="1"></td>
+                <td><input type="text" onchange="check('7,79', board7, 'table7', gameBoard7)" id="7,79" size="1"></td>
+                <td><input type="text" onchange="check('7,80', board7, 'table7', gameBoard7)" id="7,80" size="1"></td>
+            </tr>
+        </table>
+        <table id="table8" style="display:none">
+            <tr>
+                <td><input type="text" onchange="check('8,0', board8, 'table8', gameBoard8)" id="8,0" size="1"></td>
+                <td><input type="text" onchange="check('8,1', board8, 'table8', gameBoard8)" id="8,1" size="1"></td>
+                <td><input type="text" onchange="check('8,2', board8, 'table8', gameBoard8)" id="8,2" size="1"></td>
+                <td><input type="text" onchange="check('8,3', board8, 'table8', gameBoard8)" id="8,3" size="1"></td>
+                <td><input type="text" onchange="check('8,4', board8, 'table8', gameBoard8)" id="8,4" size="1"></td>
+                <td><input type="text" onchange="check('8,5', board8, 'table8', gameBoard8)" id="8,5" size="1"></td>
+                <td>2</td>
+                <td><input type="text" onchange="check('8,7', board8, 'table8', gameBoard8)" id="8,7" size="1"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('8,9', board8, 'table8', gameBoard8)" id="8,9" size="1"></td>
+                <td><input type="text" onchange="check('8,10', board8, 'table8', gameBoard8)" id="8,10" size="1"></td>
+                <td><input type="text" onchange="check('8,11', board8, 'table8', gameBoard8)" id="8,11" size="1"></td>
+                <td>1</td>
+                <td>8</td>
+                <td>2</td>
+                <td>6</td>
+                <td><input type="text" onchange="check('8,16', board8, 'table8', gameBoard8)" id="8,16" size="1"></td>
+                <td><input type="text" onchange="check('8,17', board8, 'table8', gameBoard8)" id="8,17" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('8,18', board8, 'table8', gameBoard8)" id="8,18" size="1"></td>
+                <td><input type="text" onchange="check('8,19', board8, 'table8', gameBoard8)" id="8,19" size="1"></td>
+                <td><input type="text" onchange="check('8,20', board8, 'table8', gameBoard8)" id="8,20," size="1"></td>
+                <td><input type="text" onchange="check('8,21', board8, 'table8', gameBoard8)" id="8,21" size="1"></td>
+                <td>7</td>
+                <td>5</td>
+                <td><input type="text" onchange="check('8,24', board8, 'table8', gameBoard8)" id="8,24" size="1"></td>
+                <td>4</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('8,27', board8, 'table8', gameBoard8)" id="8,27" size="1"></td>
+                <td>7</td>
+                <td><input type="text" onchange="check('8,29', board8, 'table8', gameBoard8)" id="8,29" size="1"></td>
+                <td><input type="text" onchange="check('8,30', board8, 'table8', gameBoard8)" id="8,30" size="1"></td>
+                <td><input type="text" onchange="check('8,31', board8, 'table8', gameBoard8)" id="8,31" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('8,33', board8, 'table8', gameBoard8)" id="8,33" size="1"></td>
+                <td>9</td>
+                <td><input type="text" onchange="check('8,35', board8, 'table8', gameBoard8)" id="8,35" size="1"></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td><input type="text" onchange="check('8,37', board8, 'table8', gameBoard8)" id="8,37" size="1"></td>
+                <td><input type="text" onchange="check('8,38', board8, 'table8', gameBoard8)" id="8,38" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('8,40', board8, 'table8', gameBoard8)" id="8,40" size="1"></td>
+                <td>7</td>
+                <td><input type="text" onchange="check('8,42', board8, 'table8', gameBoard8)" id="8,42" size="1"></td>
+                <td><input type="text" onchange="check('8,43', board8, 'table8', gameBoard8)" id="8,43" size="1"></td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('8,45', board8, 'table8', gameBoard8)" id="8,45" size="1">></td>
+                <td><input type="text" onchange="check('8,46', board8, 'table8', gameBoard8)" id="8,46" size="1"></td>
+                <td><input type="text" onchange="check('8,47', board8, 'table8', gameBoard8)" id="8,47" size="1"></td>
+                <td>9</td>
+                <td><input type="text" onchange="check('8,49', board8, 'table8', gameBoard8)" id="8,49" size="1"></td>
+                <td><input type="text" onchange="check('8,50', board8, 'table8', gameBoard8)" id="8,50" size="1"></td>
+                <td><input type="text" onchange="check('8,51', board8, 'table8', gameBoard8)" id="8,51" size="1"></td>
+                <td>5</td>
+                <td><input type="text" onchange="check('8,53', board8, 'table8', gameBoard8)" id="8,53" size="1"></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>5</td>
+                <td><input type="text" onchange="check('8,56', board8, 'table8', gameBoard8)" id="8,56" size="1"></td>
+                <td>8</td>
+                <td>1</td>
+                <td><input type="text" onchange="check('8,59', board8, 'table8', gameBoard8)" id="8,59" size="1"></td>
+                <td><input type="text" onchange="check('8,60', board8, 'table8', gameBoard8)" id="8,60" size="1"></td>
+                <td><input type="text" onchange="check('8,61', board8, 'table8', gameBoard8)" id="8,61" size="1"></td>
+                <td><input type="text" onchange="check('8,62', board8, 'table8', gameBoard8)" id="8,62" size="1"></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="check('8,63', board8, 'table8', gameBoard8)" id="8,63" size="1"></td>
+                <td><input type="text" onchange="check('8,64', board8, 'table8', gameBoard8)" id="8,64" size="1"></td>
+                <td>3</td>
+                <td>2</td>
+                <td>4</td>
+                <td>9</td>
+                <td><input type="text" onchange="check('8,69', board8, 'table8', gameBoard8)" id="8,69" size="1"></td>
+                <td><input type="text" onchange="check('8,70', board8, 'table8', gameBoard8)" id="8,70" size="1"></td>
+                <td><input type="text" onchange="check('8,71', board8, 'table8', gameBoard8)" id="8,71" size="1"></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><input type="text" onchange="check('8,73', board8, 'table8', gameBoard8)" id="8,73" size="1"></td>
+                <td>8</td>
+                <td><input type="text" onchange="check('8,75', board8, 'table8', gameBoard8)" id="8,75" size="1">/td>
+                <td><input type="text" onchange="check('8,76', board8, 'table8', gameBoard8)" id="8,76" size="1"></td>
+                <td><input type="text" onchange="check('8,77', board8, 'table8', gameBoard8)" id="8,77" size="1"></td>
+                <td><input type="text" onchange="check('8,78', board8, 'table8', gameBoard8)" id="8,78" size="1"></td>
+                <td><input type="text" onchange="check('8,79', board8, 'table8', gameBoard8)" id="8,79" size="1"></td>
+                <td><input type="text" onchange="check('8,80', board8, 'table8', gameBoard8)" id="8,80" size="1"></td>
+            </tr>
         </table>
     </form>
     <p id="mistakes"></p>
     <p id="cellsLeft"></p>
-    <button type="button" id="button" onclick="reset()">START</button>
-    <button type="button" id="button" onclick="location.replace('soduko.html')">Back</button>
+    <button type="button" id="buttonR" onclick="reset()">START</button>
+    <button type="button" id="buttonG">RESTART GAME</button>
     <script src="sudoku.js"></script>
-    <script>
-        game(gameBoard3);
-    </script>
 </body>
 </html>

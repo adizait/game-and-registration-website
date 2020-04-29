@@ -72,7 +72,7 @@ namespace WebApplication17
                         Response.Redirect("ErrorPage.aspx");
                     }
 
-                    if (Session["username"] != null)
+                    if (Session["UserName"] != null)
                         Response.Write("שלום " + Session["UserName"]);
                     else
                     {

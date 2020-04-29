@@ -3,62 +3,43 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-    <script src="sudoku.js"></script>
 </head>
 <body>
-    <div id="table"></div>
+    <script type="text/javascript">
 
-    <!--<canvas id="myCanvas" width="500" height="400" style="background-color:aqua"></canvas>-->
-    <script>
+        matrix[0] = new Array(1, 2, 3)
+        matrix[1] = new Array(4, 5, 6)
+        matrix[2] = new Array(7, 8, 9)
 
-        //var canvas = document.getElementById("myCanvas");
-        //var ctx = canvas.getContext("2d");
-        //var x = canvas.width / 2;
-        //var y = canvas.height - 30;
-        //var dx = 2;
-        //var dy = -2;
+        function change(e) {
+            if (e.value >= 11 && e.value <= 31) {
+                x = e.id.split(",")[0]
+                y = e.id.split(",")[1]
 
-        //function drawBall() {
-        //    ctx.beginPath();
-        //    ctx.arc(x, y, 10, 0, Math.PI * 2);
-        //    ctx.fillStyle = "#0095DD";
-        //    ctx.fill();
-        //    ctx.closePath();
-        //}
-
-        //function draw() {
-        //    ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //    drawBall();
-        //    x += dx;
-        //    y += dy;
-        //}
-        //setInterval(draw, 10);
-        var gameBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0,      //game board
-            6, 0, 0, 1, 9, 5, 0, 0, 0,
-            0, 9, 8, 0, 0, 0, 0, 6, 0,
-            8, 0, 0, 0, 6, 0, 0, 0, 3,
-            4, 0, 0, 8, 0, 3, 0, 0, 1,
-            7, 0, 0, 0, 2, 0, 0, 0, 6,
-            0, 6, 0, 0, 0, 0, 2, 8, 0,
-            0, 0, 0, 4, 1, 9, 0, 0, 5,
-            0, 0, 0, 0, 8, 0, 0, 7, 9];
-        var table = "<table>";
-        var count = 0;
-        for (var i = 0; i < 9; i++) {
-            for (var j = 0; j < 9; j++) {
-                if (gameBoard[j] == 0) {
-                    table += "<tr><td><input type=\"text\" onchange=\"check(" + count + ") \" id=\"" + count + "\" size=\"1\"></td>";
-                    count++;
-                }
-                else
-                    table += "<td>" + gameBoard[i] + "</td>";
+                document.getElementById("result").innerHTML = "Element id: [" + e.id + "] value: " + e.value + " x=" + x + ",y=" + y
             }
-            table += "</tr>";
-            count++;
+            else
+                document.getElementById("result").innerHTML = "Out of range value: " + e.value;
         }
-        table += "</table>";
-
-        document.getElementById("table").innerHTML = table;
     </script>
+
+    <table>
+        <tr>
+            <td><input type="text" id="1,11" size="2" onchange="change(this)" /></td>
+            <td><input type="text" id="1,21" size="2" onchange="change(this)" /></td>
+            <td><input type="text" id="1,31" size="2" onchange="change(this)" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" id="2,1" size="2" onchange="change(this)" /></td>
+            <td><input type="text" id="2,2" size="2" onchange="change(this)" /></td>
+            <td><input type="text" id="2,3" size="2" onchange="change(this)" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" id="3,1" size="2" onchange="change(this)" /></td>
+            <td><input type="text" id="3,2" size="2" onchange="change(this)" /></td>
+            <td><input type="text" id="3,3" size="2" onchange="change(this)" /></td>
+        </tr>
+    </table>
+    <h2 id="result"></h2>
 </body>
 </html>

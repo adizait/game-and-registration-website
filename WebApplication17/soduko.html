@@ -4,14 +4,7 @@
     <meta charset="utf-8" />
     <title>SUDOKU GAME</title>
     <style>
-        .difficulties {
-            margin-left: 95%;
-        }
-
-        label {
-            font-size: 16px;
-            margin: 0px auto;
-        }
+        
     </style>
     <script src="sudoku.js"></script>
 </head>
@@ -32,11 +25,10 @@
         function difficulties() {
 
             if (document.getElementById('easy').checked) {
+                document.getElementById("table1").style.display = "inline-table";
+                game("gameBoard1", "table1");
                 location.replace("sudoku(2).html");
-                //document.getElementById("table" + "\'" + rnd(1, 2) + "\'" ).style.display = "inline-table";
-                game("gameBoard" + "\'" + rnd(1, 2) + "\'", "board" + "\'" + rnd(1,2) + "\'");
                 reset();
-
             }
             if (document.getElementById('easy').checked) {
                 location.replace("sudoku(2).html");

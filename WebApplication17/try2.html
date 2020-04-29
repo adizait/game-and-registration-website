@@ -13,12 +13,11 @@
         var P1x = 200;
         var P1y = 370;
         var ballx = 250;
-        var bally = 250;
+        var bally = 350;
         var rightArrow = false;
         var leftArrow = false;
         var winning = 0;
         var game = false;
-        var arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         var strikes = 0;
         var spaceX = 25;
         var spaceY = 50;
@@ -26,13 +25,20 @@
         var xv = 2;
         var yv = -2;
         var counter = 0;
-             
+        var bricks = [];
+        for (var c = 0; c < 3; c++) {
+            bricks[c] = [];
+            for (var r = 0; r < 5; r++) {
+                bricks[c][r] = { x: 0, y: 0, status: 1 };
+            }
+        }
+
         window.onload = function () {
             Canvas = document.getElementById("myCanvas");
             ctx = Canvas.getContext("2d");
-               
+
             setInterval(function () {
-                
+
                 drawAll();
                 MovePlayer();
                 moveAll();
@@ -41,15 +47,15 @@
             addEventListener("keyup", onKeyUp);
         }
         function MovePlayer() {
-                if ((P1x < (Canvas.width - 99)) && (P1x >= -4)) {
-                    if (rightArrow) { P1x += 5; }
-                    if (leftArrow) { P1x -= 5; }
+            if ((P1x < (Canvas.width - 99)) && (P1x >= -4)) {
+                if (rightArrow) { P1x += 5; }
+                if (leftArrow) { P1x -= 5; }
             }
             else if (P1x <= -1) { P1x += 1; }
             else { P1x -= 1; }
         }
 
-        
+
         function onKeyDown(event) {
             var keyCode = event.keyCode;
             switch (keyCode) {
@@ -73,18 +79,42 @@
             }
         }
         function moveAll() {
-            
-                bally -= yv;           
-             if (ballx < P1x + 100 && ballx + 10 > P1x && bally < P1y + 10 && bally + 10 > P1y) {
-                ballx += xv;
-                bally += yv;
-            }            
-            
-            
-                if (ballx >= Canvas.height) { xv = -xv }
-                if (ballx <= 0) { xy = -xv }
+            bally += yv;
+            ballx += xv;
+            if (ballx < P1x + 50 && ballx + 10 > P1x && bally < P1y + 10 && bally + 10 > P1y) {
+                yv = -yv;
             }
-        
+            else if (ballx < P1x + 100 && ballx + 10 > P1x + 50 && bally < P1y + 10 && bally + 10 > P1y) {
+                xv = -xv;
+                yv = -yv;
+            }
+
+            if (ballx + xv > Canvas.width - 10 || ballx + xv < 10) {
+                xv = -xv;
+            }
+            if (bally + yv > Canvas.height - 10 || bally + yv < 10) {
+                yv = -yv;
+            }
+            spaceX = 25;
+            spaceY = 50;
+            for (var c = 0; c < 3; c++) {
+                for (var r = 0; r < 5; r++) {
+                    var brick = bricks[c][r];
+                    if (brick.status == 1) {
+                        if ((ballx) > (brick.x) && (ballx) < (brick.x + 70) && (bally) > (brick.y) && (bally) < (brick.y + 30)) {
+                            yv = -yv;
+                            alert(r, c);
+                            brick.status = 0;
+                        }
+                    }
+                    
+                }
+                
+            }
+
+        }
+
+
         function circle(x, y, radius, brushColor) {
             ctx.beginPath();
             ctx.fillStyle = brushColor;
@@ -112,17 +142,21 @@
             rect(P1x, P1y, 100, 10, 'black', 0, 'black');
             for (var i = 0; i < 3; i++) {
                 for (var j = 0; j < 5; j++) {
-                    rect(spaceX, spaceY, 70, 30, 'white' , 1, 'black');
-                    spaceX += 95;
+                    if (bricks[i][j].status == 1) {
+                        bricks[i][j].x = spaceX;
+                        bricks[i][j].y = spaceY;
+                        rect(spaceX, spaceY, 70, 30, 'white', 1, 'black');
+                        spaceX += 95;
+                    }
                 }
                 spaceY += 50;
                 spaceX = 25;
             }
-            spaceY = 50;
+
             circle(ballx, bally, 10, 'black');
         }
-            
-           
+
+
     </script>
 </body>
 </html>

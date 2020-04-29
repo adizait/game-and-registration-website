@@ -17,7 +17,7 @@ namespace WebApplication17
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["UserName"].ToString() == "guest")
+            if (Session["UserName"] == null)
             {
                 Session["ErrorText"] = "לאורחים אין פרטים במערכת זו";
                 Response.Redirect("ErrorPage.aspx");
@@ -37,7 +37,7 @@ namespace WebApplication17
                 SqlDataAdapter da = new SqlDataAdapter(cmdString, connectionString);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
-                    userDetailsTable += "<table><tr><td>" + ds.Tables[0].Rows[0]["FirstName"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["LastName"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["UserName"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["password"] + "</td></tr>" +"<tr><td>" + ds.Tables[0].Rows[0]["Email"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["Phone"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["Address"] + "</td></tr>" + "<tr><td>" + "<tr><td>" + ds.Tables[0].Rows[0]["Gender"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["Birthday"] + "</td></tr>";
+                userDetailsTable += "<table><tr><td>" + ds.Tables[0].Rows[0]["FirstName"].ToString() + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["LastName"].ToString() + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["UserName"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["password"] + "</td></tr>" +"<tr><td>" + ds.Tables[0].Rows[0]["Email"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["Phone"] + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["Address"].ToString() + "</td></tr>" + "<tr><td>" + "<tr><td>" + ds.Tables[0].Rows[0]["Gender"].ToString() + "</td></tr>" + "<tr><td>" + ds.Tables[0].Rows[0]["Birthday"] + "</td></tr>";
                 
                 conn.Close();
             }
